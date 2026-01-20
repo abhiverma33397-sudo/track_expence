@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import { FaUserEdit, FaSignOutAlt, FaHome, FaListAlt, FaUser } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
-import user from "../assets/images/user.jpg";
+import user from "../../assets/images/user.jpg";
 
 const Profile = () => {
   const navigate = useNavigate();

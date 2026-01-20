@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import user from "../assets/images/user.jpg";
+import user from "../../assets/images/user.jpg";
 import { useNavigate } from "react-router-dom";
 import {
   FaUtensils,
