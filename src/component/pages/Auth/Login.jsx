@@ -1,7 +1,17 @@
-import React from "react";
+
+import{ useState } from "react";
+import { useForm } from "react-hook-form";
+import{baseUrl} from "../config/config";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+const Login = () => {
+  const[error,setError]=useState("");
+  const{
+    register,
+    handleSubmit,
+    formState:{errors}, 
+  }=useForm();
 
   const navigate=useNavigate();
   return (
@@ -9,7 +19,7 @@ export default function Login() {
       <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-8">
         
         <h1 className="text-center text-2xl font-bold text-purple-600 font-serif mb-6">
-          Login Here
+          Login Here~
         </h1>
 
         <form className="space-y-4">

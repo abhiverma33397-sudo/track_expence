@@ -1,4 +1,4 @@
-import Bottombar from "./bottombar";
+import Bottombar from "../../bottombar";
 
 const AppLayout = ({ children }) => {
   return (
