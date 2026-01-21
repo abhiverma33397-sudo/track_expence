@@ -1,23 +1,23 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Firstpage from "./component/Firstpage";
-import Login from "./component/Login";
-import Register from "./component/Register";
-import ForgetPassword from "./component/Forget";
-import OTPpage from "./component/OTPpage";
-import NewPassword from "./component/newpassword";
+import Firstpage from "./pages/welcome/Welcome";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import ForgetPassword from "./pages/auth/Forget";
+import OTPpage from "./pages/auth/OTPpage";
+import NewPassword from "./pages/auth/newpassword";
 
-import Dashboard from "./component/Dashboard";
-import AddExpense from "./component/AddExpense";
-import AddIncome from "./component/AddIncome";
-import Profile from "./component/Profile";
-import Addcstm from "./component/Addcstm";
-import CustomIncom from "./component/customIncom";
-import AppLayout from "./component/layout";
-import Category from "./component/Category";
-import EditProfile from "./component/EditProfile";
-import ChangePassword from "./component/ChangePassword";
+import Dashboard from "./pages/dashboard/Dashboard";
+import AddExpense from "./pages/expence/AddExpense";
+import AddIncome from "./pages/income/AddIncome";
+import Profile from "./pages/profile/Profile";
+import Addcstm from "./pages/expence/Addcstmexpence";
+import CustomIncom from "./pages/income/customIncom";
+import AppLayout from "./pages/layouts/layout";
+import Category from "./pages/category/Category";
+import EditProfile from "./pages/profile/EditProfile";
+import ChangePassword from "./pages/auth/ChangePassword";
 
 function App() {
   return (

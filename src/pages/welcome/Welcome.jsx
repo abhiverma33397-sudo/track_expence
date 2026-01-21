@@ -1,6 +1,6 @@
 import React from "react";
-import img1 from "../assets/images/img-1.png";
 import { useNavigate } from "react-router-dom";
+import Img from "../../assets/images/img.png";
 
 const expenseHeadings = [
   "Save your money with a smart expense tracker",
@@ -34,7 +34,7 @@ function Firstpage() {
       >
        
         <img
-          src={img1}
+          src={Img}
           alt="Wallet"
           className="
             w-72
