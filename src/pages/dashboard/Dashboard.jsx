@@ -12,8 +12,10 @@ import {
 
 const Dashboard = () => {
   const navigate = useNavigate();
+
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [selectedIncome, setSelectedIncome] = useState(null);
+
 
   return (
     <div className="min-h-screen  flex items-center justify-center ">
@@ -27,7 +29,7 @@ const Dashboard = () => {
             className="w-16 h-16 mx-auto rounded-full border-2 border-purple-500 shadow"
           />
           <p className="mt-3 text-purple-700 font-semibold">
-            Abhishek Verma
+            Naveen Kumar
           </p>
         </div>
 
@@ -80,11 +82,16 @@ const Dashboard = () => {
             { name: "Business", icon: <FaBriefcase /> },
           ]}
         />
+
+
       </div>
     </div>
+
+
   );
 };
 
+{/* Section Component */} 
 const Section = ({
   title,
   subtitle,
@@ -173,7 +180,11 @@ const Section = ({
           Continue with {selected}
         </button>
       )}
+
+
     </div>
+
+    
   );
 };
 

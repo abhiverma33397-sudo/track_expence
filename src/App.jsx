@@ -18,9 +18,12 @@ import AppLayout from "./pages/layouts/layout";
 import Category from "./pages/category/Category";
 import EditProfile from "./pages/profile/EditProfile";
 import ChangePassword from "./pages/auth/ChangePassword";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
+    <>
+      <Toaster position="top-center" />
     <BrowserRouter>
       <Routes>
 
@@ -48,6 +51,7 @@ function App() {
 
       </Routes>
     </BrowserRouter>
+    </>
   );
 }
 

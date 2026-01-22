@@ -10,13 +10,17 @@ const Profile = () => {
 
   const activeClass = "text-purple-600 font-semibold";
   const inactiveClass = "text-gray-600";
-
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = 'unset';
     };
   }, []);
+
+   const handleLogout=()=>{
+  localStorage.removeItem("token");
+  navigate("/Login");
+}
 
   return (
   <div className=" w-screen flex md:items-center md:justify-center overflow-hidden fixed inset-0">
@@ -62,11 +66,13 @@ const Profile = () => {
             Change Password <FaUserEdit />
           </button>
 
-          <button
-            onClick={() => navigate("/")}
+
+          {/* Logout Button */}
+            <button onClick={handleLogout} 
+            
             className="w-full flex items-center justify-between bg-red-100 text-red-600 px-4 py-3 rounded-xl"
-          >
-            Logout <FaSignOutAlt />
+          >     
+          Logout <FaSignOutAlt />
           </button>
         </div>
 
