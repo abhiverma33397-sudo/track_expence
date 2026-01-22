@@ -14,6 +14,7 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -21,15 +22,21 @@ const Login = () => {
     }
   }, [navigate]);
 
+ 
   const onSubmit = async (values) => {
     try {
-      const response = await baseUrl.post("Auth/login", values);
+      const response = await baseUrl.post("Auth/login", {
+        email: values.email,
+        password: values.password,
+      });
+
       toast.success("Login Successful");
-      localStorage.setItem("token", response?.data?.token);
+      localStorage.setItem("token", response.data.token);
       navigate("/dashboard");
     } catch (error) {
+      console.log("LOGIN API ERROR 👉", error.response?.data);
       const message =
-        error?.response?.data?.message ||
+        error.response?.data?.message ||
         "Login failed. Please check your credentials.";
       toast.error(message);
       setApiError(message);
@@ -37,46 +44,48 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-8">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-100">
+      <div className="bg-white w-full max-w-md rounded-2xl shadow-xl p-8">
+
         <h1 className="text-center text-2xl font-bold text-purple-600 mb-6">
           Login Here
         </h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Username / Email */}
+
+          
           <div>
             <label className="block text-gray-700 font-medium mb-1">
-              Mobile number / Email ID
+              Email ID
             </label>
             <input
-              type="text"
-              className={`w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 ${
-                errors.username ? "border-red-500" : "border-gray-300"
+              type="email"
+              placeholder="Enter your email"
+              className={`w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none ${
+                errors.email ? "border-red-500" : "border-gray-300"
               }`}
-              placeholder="Enter mobile or email"
-              {...register("username", {
-                required: "This field is required",
+              {...register("email", {
+                required: "Email is required",
               })}
             />
-            {errors.username && (
+            {errors.email && (
               <p className="text-red-500 text-sm mt-1">
-                {errors.username.message}
+                {errors.email.message}
               </p>
             )}
           </div>
 
-          {/* Password */}
+          
           <div>
             <label className="block text-gray-700 font-medium mb-1">
               Password
             </label>
             <input
               type="password"
-              className={`w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 ${
+              placeholder="Enter password"
+              className={`w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none ${
                 errors.password ? "border-red-500" : "border-gray-300"
               }`}
-              placeholder="Enter password"
               {...register("password", {
                 required: "Password is required",
               })}
@@ -88,12 +97,12 @@ const Login = () => {
             )}
           </div>
 
-          {/* API Error */}
+         
           {apiError && (
             <p className="text-red-500 text-sm text-center">{apiError}</p>
           )}
 
-          {/* Button */}
+         
           <button
             type="submit"
             className="w-full bg-purple-600 text-white font-semibold py-2 rounded-md hover:bg-purple-700 transition"
@@ -101,7 +110,7 @@ const Login = () => {
             Log in
           </button>
 
-          {/* Links */}
+        
           <p
             className="text-right text-sm text-blue-600 cursor-pointer hover:underline"
             onClick={() => navigate("/forget")}
@@ -118,6 +127,7 @@ const Login = () => {
               Create account
             </span>
           </p>
+
         </form>
       </div>
     </div>
