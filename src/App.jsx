@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Firstpage from "./component/Firstpage";
-import Login from "./component/Login";
+import Login from "./component/auth/Login";
 import Register from "./component/Register";
 import ForgetPassword from "./component/Forget";
 import OTPpage from "./component/OTPpage";
