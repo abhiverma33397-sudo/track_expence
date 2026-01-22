@@ -63,7 +63,7 @@ const Profile = () => {
           </button>
 
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/login")}
             className="w-full flex items-center justify-between bg-red-100 text-red-600 px-4 py-3 rounded-xl"
           >
             Logout <FaSignOutAlt />
