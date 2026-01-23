@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { baseUrl } from "../services/baseurl";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../service/baseurl";
 
 const Login = () => {
   const navigate = useNavigate();

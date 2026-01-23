@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 /* -------- Public Pages -------- */
 import Firstpage from "./component/Firstpage";
 import Login from "./component/auth/Login";
-import Register from "./component/Register";
+import Register from "./component/auth/SignUp";
 import ForgetPassword from "./component/Forget";
 import OTPpage from "./component/OTPpage";
 import NewPassword from "./component/newpassword";
