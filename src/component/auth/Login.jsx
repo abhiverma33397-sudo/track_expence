@@ -22,21 +22,17 @@ const Login = () => {
     }
   }, [navigate]);
 
- 
-  const onSubmit = async (values) => {
+ const onSubmit = async (values) => {
+    console.log(values);
     try {
-      const response = await baseUrl.post("Auth/login", {
-        email: values.email,
-        password: values.password,
-      });
-
-      toast.success("Login Successful");
-      localStorage.setItem("token", response.data.token);
-      navigate("/dashboard");
+      const response = await baseUrl.post("Auth/login", values);
+      console.log(response.data);
+      toast.success("Login successful");
+      localStorage.setItem("token", response?.data?.token);
+      navigate("/Dashboard");
     } catch (error) {
-      console.log("LOGIN API ERROR 👉", error.response?.data);
       const message =
-        error.response?.data?.message ||
+        error?.response?.data?.message ||
         "Login failed. Please check your credentials.";
       toast.error(message);
       setApiError(message);

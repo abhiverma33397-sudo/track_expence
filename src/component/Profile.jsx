@@ -3,22 +3,19 @@ import { IoArrowBack } from "react-icons/io5";
 import { FaUserEdit, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import user from "../assets/images/user.jpg";
+import { useUserDetail } from "./hooks/useUserDetail";
 
 const Profile = () => {
-  const navigate = useNavigate();
-
+  const { decode } = useUserDetail();
+  console.log(decode);
   
+  const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("token"); 
-    navigate("/login", { replace: true }); 
+    navigate("/login"); 
   };
 
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, []);
+ 
 
   return (
     <div className="w-screen fixed inset-0 flex items-center justify-center bg-gray-100">
@@ -44,8 +41,19 @@ const Profile = () => {
 
         {/*  User Info */}
         <div className="text-center mb-6">
-          <p className="text-lg font-bold text-purple-700">Abhishek Verma</p>
-          <p className="text-sm text-gray-600">abhishek@gmail.com</p>
+            <p className="text-sm font-medium text-gray-700">
+          {decode &&
+            decode[
+             "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+            ]}
+        </p>
+
+         <p className="text-xs text-gray-500">
+          {decode &&
+            decode[
+              "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+            ]}
+        </p>
         </div>
 
         {/* Buttons */}

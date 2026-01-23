@@ -20,11 +20,8 @@ import CustomIncom from "./component/customIncom";
 import Category from "./component/Category";
 import EditProfile from "./component/EditProfile";
 import ChangePassword from "./component/ChangePassword";
-
-/* -------- Layout -------- */
 import AppLayout from "./component/layout";
 
-/* -------- Protected Route Component -------- */
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("token");
   return token ? children : <Navigate to="/login" replace />;
@@ -38,7 +35,7 @@ function App() {
       <BrowserRouter>
         <Routes>
 
-          {/* ---------- PUBLIC ROUTES ---------- */}
+          
           <Route path="/" element={<Firstpage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -46,7 +43,7 @@ function App() {
           <Route path="/otppage" element={<OTPpage />} />
           <Route path="/newpassword" element={<NewPassword />} />
 
-          {/* ---------- PROTECTED ROUTES ---------- */}
+       
           <Route
             path="/dashboard"
             element={

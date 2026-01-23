@@ -8,7 +8,7 @@ export const useUserDetail=()=>{
         if (token){
             const decoded=jwtDecode(token);
             console.log(decode);
-            setDecode(decode)
+            setDecode(decoded)
             
         }
         else{
