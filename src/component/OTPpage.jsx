@@ -1,9 +1,35 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { resetPassword } from "./service/userService";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 
 const OTPpage = () => {
+  const[searchParams,setSearchParams]=useSearchParams();
+  const email=searchParams.get("email");
   const navigate=useNavigate();
+
+  const{
+    register,
+    handleSubmit,
+    formState:{error} 
+  }=useForm();
+
+  const onSubmit=async(data)=>{
+    console.log(data);
+
+    try {
+      data.email=email;
+      const response=await resetPassword(data);
+      console.log(response);
+      navigate(`/NewPassword?email=${email}`);
+      toast.success("OTP verified successfully");
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
   return (
     <div className="min-h-screen flex items-center justify-center  p-4">
       <div className="bg-white w-80 max-w-sm rounded-2xl shadow-xl p-6 text-center font-serif">
@@ -15,21 +41,22 @@ const OTPpage = () => {
        
 
        
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="my-4 text-left">
             <label className="block mb-1 text-gray-700 font-medium">
                OTP Code 
             </label>
             <input
-              type="email"
+              type="text"
               placeholder="Enter 6-digit OTP"
               className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              {...register("otp",{required:"OTP is required"})}
             />
           </div>
 
           <button
             type="submit"
-            onClick={()=>navigate("/NewPassword")}
+            // onClick={()=>navigate("/NewPassword")}
             className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition"
           >
             Verify OTP

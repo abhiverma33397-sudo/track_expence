@@ -7,19 +7,7 @@ const CreateNewPassword = () => {
   
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    if (!newPassword || !confirmPassword) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    if (newPassword !== confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
-
-    alert("Password updated successfully!");
-  };
+      
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-50 to-pink-50">

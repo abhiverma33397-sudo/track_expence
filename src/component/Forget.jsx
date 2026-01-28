@@ -1,9 +1,31 @@
 import React from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { forgetPassword } from "./service/userService";
+import toast from "react-hot-toast";
 
 
 const ForgetPassword = () => {
   const navigate=useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState:{error}
+  }=useForm();
+
+  const onSubmit=async(data)=>{
+    console.log(data);
+    try {
+      const response=await forgetPassword(data);
+      console.log(response);
+      toast.success("OTP sent to your email");
+      navigate("/OTPpage"+`?email=${data.email}`);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center p-2">
       <div className="bg-white w-80 max-w-sm rounded-2xl shadow-xl p-6 text-center font-serif">
@@ -15,21 +37,22 @@ const ForgetPassword = () => {
        
 
         {/* Form */}
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="my-4 text-left">
             <label className="block mb-1 text-gray-700 font-medium">
-               Mobile number 
+                Email
             </label>
             <input
               type="email"
-              placeholder="Enter your  mobile number "
+              placeholder="Enter your  Email "
               className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              {...register("email",{required:"Email is required"})}
             />
           </div>
 
           <button
             type="submit"
-            onClick={()=>navigate("/OTPpage")}
+            // onClick={()=>navigate("/OTPpage")}
             className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition"
           >
             Send OTP
