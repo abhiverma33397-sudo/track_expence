@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { resetPassword } from "./service/userService";
+import { resetPassword, verifyOtp } from "./service/userService";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -13,7 +13,7 @@ const OTPpage = () => {
   const{
     register,
     handleSubmit,
-    formState:{error} 
+    formState:{errors} 
   }=useForm();
 
   const onSubmit=async(data)=>{
@@ -21,13 +21,14 @@ const OTPpage = () => {
 
     try {
       data.email=email;
-      const response=await resetPassword(data);
+      const response=await verifyOtp(data);
       console.log(response);
       navigate(`/NewPassword?email=${email}`);
       toast.success("OTP verified successfully");
+     
     } catch (error) {
-      console.log(error);
-      
+      console.log(error.response);
+      toast.error("Invalid OTP");
     }
   }
   return (

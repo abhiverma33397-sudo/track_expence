@@ -11,7 +11,7 @@ const ForgetPassword = () => {
   const {
     register,
     handleSubmit,
-    formState:{error}
+    formState:{errors}
   }=useForm();
 
   const onSubmit=async(data)=>{

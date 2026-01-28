@@ -8,7 +8,7 @@ import Login from "./component/auth/Login";
 import Register from "./component/auth/SignUp";
 import ForgetPassword from "./component/Forget";
 import OTPpage from "./component/OTPpage";
-import NewPassword from "./component/newpassword";
+import NewPassword from "./component/NewPassword";
 
 /* -------- Protected Pages -------- */
 import Dashboard from "./component/Dashboard";

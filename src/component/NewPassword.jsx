@@ -1,12 +1,38 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { resetPassword } from "./service/userService";
 
 const CreateNewPassword = () => {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  
+  const[searchParams,setSearchParams]=useSearchParams();
+  const email=searchParams.get("email");
   const navigate = useNavigate();
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }, 
+  }
+= useForm();
+
+const onSubmit=async(data)=>{
+  if(data.newPassword!==data.confirmPassword){
+    toast.error("Password and Confirm Password should be same");
+    return;
+  }
+  try {
+    data.email=email;
+   const response=await resetPassword(data);
+    console.log(response);
+    toast.success("Password reset successfully");
+    navigate("/login");
+  } catch (error) {
+    console.log(error);
+    toast.error("Something went wrong");
+    
+  }
+};
       
 
   return (
@@ -16,7 +42,7 @@ const CreateNewPassword = () => {
         <h2 className="text-purple-600 font-bold text-xl mb-6">
           Create New Password
         </h2>
-
+<form onSubmit={handleSubmit(onSubmit)}>
         {/* New Password */}
         <div className="text-left mb-4">
           <label className="block mb-2 text-purple-600 font-semibold">
@@ -24,10 +50,10 @@ const CreateNewPassword = () => {
           </label>
           <input
             type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+         
             placeholder="Enter new password"
             className="w-full border border-purple-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+            {...register("newPassword",{required:"New Password is required"})}
           />
         </div>
 
@@ -38,10 +64,11 @@ const CreateNewPassword = () => {
           </label>
           <input
             type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            
+            
             placeholder="Confirm new password"
             className="w-full border border-purple-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+            {...register("confirmPassword",{required:"Confirm Password is required"})}
           />
         </div>
 
@@ -61,9 +88,11 @@ const CreateNewPassword = () => {
     Cancel
   </button>
         </div>
+        </form>
       </div>
     </div>
   );
 };
+
 
 export default CreateNewPassword;
