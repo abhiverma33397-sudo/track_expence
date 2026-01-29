@@ -42,17 +42,12 @@ const Profile = () => {
         {/*  User Info */}
         <div className="text-center mb-6">
             <p className="text-sm font-medium text-gray-700">
-          {decode &&
-            decode[
-             "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-            ]}
+          {
+            decode?.Role}
         </p>
 
          <p className="text-xs text-gray-500">
-          {decode &&
-            decode[
-              "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
-            ]}
+          {decode?.Email}
         </p>
         </div>
 
