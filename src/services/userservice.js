@@ -14,6 +14,5 @@ export const verifyOTP = (values) => baseURL.post("Auth/verify-otp", values);
 export const resetPassword = (values) => baseURL.post("Auth/reset-password", values);
 export const changePassword = (values) => baseURL.post("Auth/change-password", values);
 
-export const editprofile = (values) => baseURL.put("User/edit-profile", values);
 
 

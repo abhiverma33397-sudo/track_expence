@@ -9,21 +9,21 @@ import toast from "react-hot-toast";
 const EditProfile = () => {
   const navigate = useNavigate();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm();
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors }
+  // } = useForm();
 
-  const onSubmit = async (values) => {
-    try {
-      const response= await editprofile(values);
-      console.log(response)
-      toast.success("Profile Updated👍")
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const onSubmit = async (values) => {
+  //   try {
+  //     const response= await editprofile(values);
+  //     console.log(response)
+  //     toast.success("Profile Updated👍")
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   // const [name, setName] = useState("Abhishek Verma");
   // const [email, setEmail] = useState("abhishek@gmail.com");
