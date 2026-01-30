@@ -41,24 +41,13 @@ const navigate=useNavigate();
        
 
        
-<<<<<<< HEAD
-        <form onSubmit={handleSubmit(onSubmit)}>
-=======
         <form onSubmit ={handleSubmit(onSubmit)}>
->>>>>>> origin/naveen/12-01-26
           <div className="my-4 text-left">
             <label className="block mb-1 text-gray-700 font-medium">
                OTP Code 
             </label>
             
             <input
-<<<<<<< HEAD
-              type="text"
-              placeholder="Enter 6-digit OTP"
-              className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
-              {...register("otp",{required:"OTP is required"})}
-            />
-=======
             type="text"
             inputMode="numeric"
              maxLength={6}
@@ -67,7 +56,6 @@ const navigate=useNavigate();
             {...register("otp", { required: "OTP is required" })}
 />
 
->>>>>>> origin/naveen/12-01-26
           </div>
 
           <button

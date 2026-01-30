@@ -46,13 +46,9 @@ const CreateNewPassword = () => {
         <h2 className="text-purple-600 font-bold text-xl mb-6">
           Create New Password
         </h2>
-<<<<<<< HEAD
-<form onSubmit={handleSubmit(onSubmit)}>
-=======
 
         <form onSubmit={handleSubmit(onSubmit)}>
 
->>>>>>> origin/naveen/12-01-26
         {/* New Password */}
         <div className="text-left mb-4">
           <label className="block mb-2 text-purple-600 font-semibold">
@@ -60,12 +56,8 @@ const CreateNewPassword = () => {
           </label>
           <input
             type="password"
-<<<<<<< HEAD
-         
-=======
             // value={newPassword}
             // onChange={(e) => setNewPassword(e.target.value)}
->>>>>>> origin/naveen/12-01-26
             placeholder="Enter new password"
             className="w-full border border-purple-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
             {...register("newPassword",{required:"New Password is required"})}
@@ -79,11 +71,6 @@ const CreateNewPassword = () => {
           </label>
           <input
             type="password"
-<<<<<<< HEAD
-            
-            
-=======
->>>>>>> origin/naveen/12-01-26
             placeholder="Confirm new password"
             className="w-full border border-purple-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
             {...register("confirmPassword",{required:"Confirm Password is required"})}

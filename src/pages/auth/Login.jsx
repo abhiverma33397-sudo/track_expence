@@ -58,19 +58,9 @@ export default function Login() {
             </label>
             <input
               type="email"
-<<<<<<< HEAD
-              placeholder="Enter your email"
-              className={`w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none ${
-                errors.email ? "border-red-500" : "border-gray-300"
-              }`}
-              {...register("email", {
-                required: "Email is required",
-              })}
-=======
               placeholder="Enter email"
               {...register("email",{required:"Email is required"})}
               className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
->>>>>>> origin/naveen/12-01-26
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">
@@ -84,43 +74,12 @@ export default function Login() {
             <label className="block text-gray-700 font-medium mb-1">
               Password
             </label>
-<<<<<<< HEAD
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter password"
-                className={`w-full border rounded-md px-3 py-2 pr-10 focus:ring-2 focus:ring-purple-500 focus:outline-none ${
-                  errors.password ? "border-red-500" : "border-gray-300"
-                }`}
-                {...register("password", {
-                  required: "Password is required",
-                })}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
-              >
-                {showPassword ? (
-                  <EyeOff size={20} />
-                ) : (
-                  <Eye size={20} />
-                )}
-              </button>
-            </div>
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.password.message}
-              </p>
-            )}
-=======
             <input
               type="password"
               placeholder="Enter password"
               {...register("password",{required:"Password is required"})}
               className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
             />
->>>>>>> origin/naveen/12-01-26
           </div>
 
           {/* API Error Message */}
@@ -131,10 +90,7 @@ export default function Login() {
           {/* Submit Button */}
           <button
             type="submit"
-<<<<<<< HEAD
-=======
             // onSubmit={()=>navigate("/Dashboard")}
->>>>>>> origin/naveen/12-01-26
             className="w-full bg-purple-600 text-white font-semibold py-2 rounded-md hover:bg-purple-700 transition"
           >
             Log in
@@ -161,13 +117,7 @@ export default function Login() {
         </form>
     </div>
   );
-<<<<<<< HEAD
-};
-
-export default Login;
-=======
 }
 
 
 
->>>>>>> origin/naveen/12-01-26
