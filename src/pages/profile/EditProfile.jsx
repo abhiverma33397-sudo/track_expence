@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IoArrowBack, IoCamera } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import userImg from "../assets/images/user.jpg";
+import userImg from "../../assets/images/user.jpg";
 
 const EditProfile = () => {
   const navigate = useNavigate();
