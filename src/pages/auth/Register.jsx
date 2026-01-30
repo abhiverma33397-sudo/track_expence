@@ -1,8 +1,29 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import baseURL from "../../services/baseurl";
+import toast from "react-hot-toast";
+import { signUp } from "../../services/userservice";
 
 export default function Register() {
   const navigate=useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState : {errors}
+  }=useForm();
+
+  const onSubmit=async(values)=>{
+  try{
+    const response= await signUp(values);
+    console.log(response)
+    toast.success("Register Successful👍")
+    navigate("/login");
+  
+  }catch(error){
+    console.log(error)
+  }
+}
   
   return (
     <div className="min-h-screen flex items-center justify-center  p-4">
@@ -11,49 +32,65 @@ export default function Register() {
           Register Here
         </h1>
 
-        <form>
+        <form onSubmit ={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-1 text-left">
-              Enter Name
+              First Name
             </label>
             <input
               type="text"
               placeholder="Enter your name"
               className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              {...register("firstName",{required:"First Name is required"})}
             />
+            {errors.firstName && (<div className="text-red-500 text-sm mt-1">{errors.firstName.message}</div>
+            )}
           </div>
 
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-1 text-left">
-              Enter Mobile Number
+              Last Name
             </label>
             <input
               type="text"
-              placeholder="Enter your mobile number"
+              placeholder="Enter your name"
               className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              {...register("lastName",{required:"Last Name is required"})}
             />
+            {errors.lastName && (<div className="text-red-500 text-sm mt-1">{errors.lastName.message}</div>
+            )}
           </div>
+
 
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-1 text-left">
-              Enter Email ID
+            Email ID
             </label>
             <input
               type="email"
               placeholder="Enter your email"
               className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              {...register("email",{required:"Email is required",
+              pattern:{
+                 value: /^\S+@\S+$/i,
+              message: "Invalid email address",}
+              })}
             />
+              {errors.email && <p className="text-red-600">{errors.email.message}</p>}
+
           </div>
 
           <div className="mb-6">
             <label className="block text-gray-700 font-medium mb-1 text-left">
-              Enter Password
+            Password
             </label>
             <input
               type="password"
               placeholder="Enter your password"
               className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              {...register("password",{required:"Password is required",})}
             />
+            {errors.password&& (<div className="text-red-500 text-sm mt-1">{errors.password.message}</div>)}
           </div>
 
           <div className="flex gap-4 mb-4 justify-center">

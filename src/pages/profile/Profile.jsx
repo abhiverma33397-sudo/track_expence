@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import { FaUserEdit, FaSignOutAlt, FaHome, FaListAlt, FaUser } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 import user from "../../assets/images/user.jpg";
+import { useUserdetails } from "../hooks/useuserdetails";
 
 const Profile = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const decode = useUserdetails();
+  console.log(decode)
+
 
   const activeClass = "text-purple-600 font-semibold";
   const inactiveClass = "text-gray-600";
@@ -47,8 +51,16 @@ const Profile = () => {
         />
 
         <div className="text-center mb-6">
-          <p className="text-lg font-bold text-purple-700">Abhishek Verma</p>
-          <p className="text-sm text-gray-600">abhishek@gmail.com</p>
+          <p>
+          {decode && decode[
+            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+            ]}
+        </p>
+          <p>
+          {decode && decode[
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+            ]}
+        </p>
         </div>
 
         <div className="space-y-4">

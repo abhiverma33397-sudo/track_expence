@@ -1,25 +1,43 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { resetPassword } from "../../services/userservice";
+import toast from "react-hot-toast";
 
 const CreateNewPassword = () => {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const email=searchParams.get("email");
   
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    if (!newPassword || !confirmPassword) {
-      alert("Please fill all fields");
-      return;
-    }
+  const {
+      register,
+      handleSubmit,
+      formState : {errors}
+    }=useForm();
 
-    if (newPassword !== confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
+    const onSubmit=async(values)=>{
+      
+      if (values.newPassword !== values.confirmPassword) {
+            toast.error("Passwords do not match ❌");
+             return;
+            }
 
-    alert("Password updated successfully!");
-  };
+      try{
+            values.email=email;
+            const response= await resetPassword(values);
+            console.log(response)
+            toast.success("Password Reset Successfully 👍")
+            navigate("/login");
+
+          }catch(error){
+            console.log(error)
+            toast.error("Failed to reset password ❌");
+          }
+        }
+
+
+ 
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-50 to-pink-50">
@@ -29,6 +47,8 @@ const CreateNewPassword = () => {
           Create New Password
         </h2>
 
+        <form onSubmit={handleSubmit(onSubmit)}>
+
         {/* New Password */}
         <div className="text-left mb-4">
           <label className="block mb-2 text-purple-600 font-semibold">
@@ -36,10 +56,11 @@ const CreateNewPassword = () => {
           </label>
           <input
             type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+            // value={newPassword}
+            // onChange={(e) => setNewPassword(e.target.value)}
             placeholder="Enter new password"
             className="w-full border border-purple-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+            {...register("newPassword",{required:"New Password is required"})}
           />
         </div>
 
@@ -50,18 +71,19 @@ const CreateNewPassword = () => {
           </label>
           <input
             type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirm new password"
             className="w-full border border-purple-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+            {...register("confirmPassword",{required:"Confirm Password is required"})}
           />
         </div>
 
         {/* Buttons */}
         <div className="flex justify-center gap-3">
           <button
-            onClick={handleSubmit}
+
             className="w-44 bg-purple-600 text-white font-semibold py-2 rounded-md hover:bg-purple-700 transition"
+           
+            
           >
             Update Password
           </button>
@@ -73,6 +95,7 @@ const CreateNewPassword = () => {
     Cancel
   </button>
         </div>
+        </form>
       </div>
     </div>
   );

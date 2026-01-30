@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import baseURL from "../../services/baseurl";
 import { useEffect } from "react";  
+import { login } from "../../services/userservice";
 
 
 
@@ -21,16 +22,14 @@ export default function Login() {
 
   useEffect(()=>{
   const token=localStorage.getItem("token");
-  console.log("TOKEN IN LOGIN PAGE",token);
   if(token){
     navigate("/Dashboard");
   }
 },[navigate])
 
   const onSubmit=async(values)=>{
-    console.log("SUBMIT HIT",values);
     try{
-      const response=await baseURL.post("Auth/login",values);
+      const response=await login(values);
       toast.success("Login Successful👍")
       localStorage.setItem("token",response?.data?.token);
       navigate("/Dashboard");
