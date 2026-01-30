@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 /* -------- Public Pages -------- */
-import Firstpage from "./component/Firstpage";
+import Welcome from "./pages/welcome/Welcome";
 import Login from "./component/auth/Login";
 import Register from "./component/auth/SignUp";
 import ForgetPassword from "./component/Forget";
@@ -36,7 +36,7 @@ function App() {
         <Routes>
 
           
-          <Route path="/" element={<Firstpage />} />
+        <Route path="/" element={<Welcome/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forget" element={<ForgetPassword />} />
