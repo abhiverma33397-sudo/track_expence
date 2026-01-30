@@ -1,16 +1,19 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { forgetPassword } from "./service/userService";
+import { forgotPassword } from "../../services/userservice";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 
 const ForgetPassword = () => {
+
   const navigate=useNavigate();
 
   const {
     register,
     handleSubmit,
+<<<<<<< HEAD
     formState:{errors}
   }=useForm();
 
@@ -23,6 +26,24 @@ const ForgetPassword = () => {
       navigate("/OTPpage"+`?email=${data.email}`);
     } catch (error) {
       console.log(error);
+=======
+    formState : {errors}
+  }=useForm();
+
+  const onSubmit=async(values)=>{
+        
+    try{
+      const response= await forgotPassword(values);
+      console.log(response)
+      toast.success("OTP sent to your Email 👍")
+      navigate("/OTPpage?email="+values.Email);
+    }catch(error){
+      const message =
+    error?.response?.data?.message ||
+    "Something went wrong. Please try again.";
+
+  toast.error(message);
+>>>>>>> origin/naveen/12-01-26
     }
   }
 
@@ -37,6 +58,7 @@ const ForgetPassword = () => {
        
 
         {/* Form */}
+<<<<<<< HEAD
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="my-4 text-left">
             <label className="block mb-1 text-gray-700 font-medium">
@@ -47,12 +69,29 @@ const ForgetPassword = () => {
               placeholder="Enter your  Email "
               className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
               {...register("email",{required:"Email is required"})}
+=======
+        <form onSubmit ={handleSubmit(onSubmit)}>
+          <div className="my-4 text-left">
+            <label className="block mb-1 text-gray-700 font-medium">
+              Email  
+            </label>
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              {...register("Email",{required:"Email is required"})}
+>>>>>>> origin/naveen/12-01-26
             />
+            {errors.Email && (<div className="text-red-500 text-sm mt-1">{errors.Email.message}</div> )}
+
           </div>
 
           <button
             type="submit"
+<<<<<<< HEAD
             // onClick={()=>navigate("/OTPpage")}
+=======
+>>>>>>> origin/naveen/12-01-26
             className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition"
           >
             Send OTP

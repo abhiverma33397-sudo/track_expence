@@ -1,21 +1,49 @@
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import { IoArrowBack } from "react-icons/io5";
+<<<<<<< HEAD
 import { FaUserEdit, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import user from "../assets/images/user.jpg";
 import { useUserDetail } from "./hooks/useUserDetail";
+=======
+import { FaUserEdit, FaSignOutAlt, FaHome, FaListAlt, FaUser } from "react-icons/fa";
+import { useNavigate, useLocation } from "react-router-dom";
+import user from "../../assets/images/user.jpg";
+import { useUserdetails } from "../hooks/useuserdetails";
+>>>>>>> origin/naveen/12-01-26
 
 const Profile = () => {
   const { decode } = useUserDetail();
   console.log(decode);
   
   const navigate = useNavigate();
+<<<<<<< HEAD
   const handleLogout = () => {
     localStorage.removeItem("token"); 
     navigate("/login"); 
   };
 
  
+=======
+  const location = useLocation();
+  const decode = useUserdetails();
+  console.log(decode)
+
+
+  const activeClass = "text-purple-600 font-semibold";
+  const inactiveClass = "text-gray-600";
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+>>>>>>> origin/naveen/12-01-26
+
+   const handleLogout=()=>{
+  localStorage.removeItem("token");
+  navigate("/Login");
+}
 
   return (
     <div className="w-screen fixed inset-0 flex items-center justify-center bg-gray-100">
@@ -41,13 +69,15 @@ const Profile = () => {
 
         {/*  User Info */}
         <div className="text-center mb-6">
-            <p className="text-sm font-medium text-gray-700">
-          {
-            decode?.Role}
+          <p>
+          {decode && decode[
+            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+            ]}
         </p>
-
-         <p className="text-xs text-gray-500">
-          {decode?.Email}
+          <p>
+          {decode && decode[
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+            ]}
         </p>
         </div>
 
@@ -67,11 +97,18 @@ const Profile = () => {
             Change Password <FaUserEdit />
           </button>
 
+<<<<<<< HEAD
           <button
             onClick={handleLogout}
+=======
+
+          {/* Logout Button */}
+            <button onClick={handleLogout} 
+            
+>>>>>>> origin/naveen/12-01-26
             className="w-full flex items-center justify-between bg-red-100 text-red-600 px-4 py-3 rounded-xl"
-          >
-            Logout <FaSignOutAlt />
+          >     
+          Logout <FaSignOutAlt />
           </button>
         </div>
       </div>
