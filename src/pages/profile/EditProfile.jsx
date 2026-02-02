@@ -3,46 +3,13 @@ import { IoArrowBack, IoCamera } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import userImg from "../../assets/images/user.jpg";
 import { useForm } from "react-hook-form";
-import { editprofile } from "../../services/userservice";
+
 import toast from "react-hot-toast";
 
-const EditProfile = () => {
+const editprofile = () => {
   const navigate = useNavigate();
 
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors }
-  // } = useForm();
-
-  // const onSubmit = async (values) => {
-  //   try {
-  //     const response= await editprofile(values);
-  //     console.log(response)
-  //     toast.success("Profile Updated👍")
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const [name, setName] = useState("Abhishek Verma");
-  // const [email, setEmail] = useState("abhishek@gmail.com");
-  // const [profileImage, setProfileImage] = useState(userImg);
-
-  // useEffect(() => {
-  //   document.body.style.overflow = "hidden";
-  //   return () => {
-  //     document.body.style.overflow = "unset";
-  //   };
-  // }, []);
-
-  // Image change handler
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     setProfileImage(URL.createObjectURL(file));
-  //   }
-  // };
+ 
 
   return (
     <div className="w-screen flex md:items-center md:justify-center overflow-hidden fixed inset-0">
@@ -124,4 +91,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default editprofile;

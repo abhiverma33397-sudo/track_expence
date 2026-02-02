@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
-import { jwtDecode } from 'jwt-decode';
-export const useUserdetails = () => {
+import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
+
+export const useUserDetail = () => {
     const [decode, setDecode] = useState(null);
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -8,16 +9,12 @@ export const useUserdetails = () => {
             const decoded = jwtDecode(token);
             console.log(decoded)
             setDecode(decoded);
-        }
-        else {
+        } else {
             setDecode(null);
         }
 
 
     }, [])
 
-
-    return (decode)
+    return { decode };
 }
-
-

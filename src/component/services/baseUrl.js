@@ -1,6 +1,4 @@
-import axios from 'axios';
+import baseURL from '../../services/baseurl';
 
-export const baseurl=axios.create({
-    baseURL:"https://apistudent2.codedonor.in/api/"
-});
-export default baseurl;
+export default baseURL;
+export const baseurl = baseURL;

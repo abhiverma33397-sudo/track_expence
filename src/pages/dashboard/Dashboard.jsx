@@ -29,7 +29,7 @@ const Dashboard = () => {
             className="w-16 h-16 mx-auto rounded-full border-2 border-purple-500 shadow"
           />
           <p className="mt-3 text-purple-700 font-semibold">
-            Naveen Kumar
+            Abhishek Kumar
           </p>
         </div>
 

@@ -3,24 +3,18 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { IoArrowBack } from "react-icons/io5";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { changePassword } from "../../services/userservice";
-import { useUserdetails } from "../../hooks/useuserdetails";
+import { changePassword as changePasswordApi } from "../../services/userservice";
+import { useUserDetail } from "../hooks/useuserdetails";
 
-
-
-const changepassword = () => {
-  const user = useUserdetails();
+const ChangePassword = () => {
+  const { decode: user } = useUserDetail();
   const userEmail = user?.email;
 
   const [searchParams] = useSearchParams();
-  const email = searchParams.get("email");
+  const emailFromUrl = searchParams.get("email");
   const navigate = useNavigate();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const onSubmit = async (values) => {
     if (values.newPassword !== values.confirmPassword) {
@@ -29,10 +23,15 @@ const changepassword = () => {
     }
 
     try {
-      values.email = userEmail;
-      await changePassword(values);
+      const payload = {
+        email: userEmail || emailFromUrl,
+        oldPassword: values.oldPassword,
+        newPassword: values.newPassword,
+      };
+
+      await changePasswordApi(payload);
       toast.success("Password Changed Successfully 👍");
-      navigate(`/dashboard?email=${email}`);
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
       toast.error("Failed to change password ❌");
@@ -40,10 +39,8 @@ const changepassword = () => {
   };
 
   return (
-    <div className="w-screen flex md:items-center md:justify-center fixed inset-0">
-      <div className="bg-white w-full max-w-md rounded-2xl md:shadow-xl p-6 relative">
-
-        {/* Back */}
+    <div className="w-screen h-screen flex items-center justify-center">
+      <div className="bg-white w-full max-w-md rounded-2xl shadow-xl p-6 relative">
         <button
           onClick={() => navigate(-1)}
           className="absolute top-4 left-4 text-purple-600"
@@ -56,40 +53,28 @@ const changepassword = () => {
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <label className="block text-sm text-gray-600 mb-1">
-              Current Password
-            </label>
-            <input
-              type="password"
-              className="w-full bg-purple-50 p-3 rounded-xl border"
-              {...register("oldPassword", { required: true })}
-            />
-          </div>
+          <input
+            type="password"
+            placeholder="Current Password"
+            className="w-full bg-purple-50 p-3 rounded-xl border"
+            {...register("oldPassword", { required: true })}
+          />
 
-          <div>
-            <label className="block text-sm text-gray-600 mb-1">
-              New Password
-            </label>
-            <input
-              type="password"
-              className="w-full bg-purple-50 p-3 rounded-xl border"
-              {...register("newPassword", { required: true })}
-            />
-          </div>
+          <input
+            type="password"
+            placeholder="New Password"
+            className="w-full bg-purple-50 p-3 rounded-xl border"
+            {...register("newPassword", { required: true })}
+          />
 
-          <div>
-            <label className="block text-sm text-gray-600 mb-1">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              className="w-full bg-purple-50 p-3 rounded-xl border"
-              {...register("confirmPassword", { required: true })}
-            />
-          </div>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            className="w-full bg-purple-50 p-3 rounded-xl border"
+            {...register("confirmPassword", { required: true })}
+          />
 
-          <button className="w-full bg-purple-600 text-white py-3 rounded-xl font-semibold">
+          <button className="w-full bg-purple-600 text-white py-3 rounded-xl">
             Update Password
           </button>
         </form>

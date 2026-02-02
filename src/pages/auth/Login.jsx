@@ -1,9 +1,9 @@
-// import React, { useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import baseURL from "../../services/baseurl";
-import { useEffect } from "react";  
+import { useEffect, useState } from "react";  
 import { login } from "../../services/userservice";
 
 
@@ -11,8 +11,9 @@ import { login } from "../../services/userservice";
 
 export default function Login() { 
     const navigate=useNavigate();
+  const [apiError, setApiError] = useState("");
 
-    // const[error,setError]=useState({});
+ 
 
     const {
     register,
@@ -36,8 +37,9 @@ export default function Login() {
     }
      
     catch(error){
-      toast.error(error?.response?.data?.message||
-      ("Login Failed❌"));
+      const message = error?.response?.data?.message || "Login Failed❌";
+      toast.error(message);
+      setApiError(message);
     }
 }
 
@@ -69,7 +71,6 @@ export default function Login() {
             )}
           </div>
 
-          {/* Password Field with Show/Hide */}
           <div>
             <label className="block text-gray-700 font-medium mb-1">
               Password
@@ -82,21 +83,21 @@ export default function Login() {
             />
           </div>
 
-          {/* API Error Message */}
+       
           {apiError && (
             <p className="text-red-500 text-sm text-center">{apiError}</p>
           )}
 
-          {/* Submit Button */}
+        
           <button
             type="submit"
-            // onSubmit={()=>navigate("/Dashboard")}
+           
             className="w-full bg-purple-600 text-white font-semibold py-2 rounded-md hover:bg-purple-700 transition"
           >
             Log in
           </button>
 
-          {/* Forgot Password Link */}
+       
           <p
             className="text-right text-sm text-blue-600 cursor-pointer hover:underline"
             onClick={() => navigate("/forget")}
