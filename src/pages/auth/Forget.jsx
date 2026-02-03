@@ -1,5 +1,4 @@
 import React from "react";
-
 import { useNavigate } from "react-router-dom";
 import { forgotPassword } from "../../services/userservice";
 import { useForm } from "react-hook-form";
@@ -24,11 +23,13 @@ const ForgetPassword = () => {
       toast.success("OTP sent to your Email 👍")
       navigate("/OTPpage?email="+values.Email);
     }catch(error){
+      console.error("forgotPassword error:", error.response || error);
       const message =
-    error?.response?.data?.message ||
-    "Something went wrong. Please try again.";
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong. Please try again.";
 
-  toast.error(message);
+      toast.error(message);
     }
   }
 

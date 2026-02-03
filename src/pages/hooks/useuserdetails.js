@@ -18,3 +18,5 @@ export const useUserDetail = () => {
 
     return { decode };
 }
+
+export default useUserDetail;
