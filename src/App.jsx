@@ -33,6 +33,7 @@ function App() {
         {/* Pages WITHOUT bottom bar */}
         <Route path="/" element={<Firstpage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/welcome" element={<Firstpage />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/Forget" element={<ForgetPassword />} />
         <Route path="/OTPpage" element={<OTPpage />} />
