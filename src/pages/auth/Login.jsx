@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { login } from "../../services/userservice";
+import { Eye, EyeOff } from "lucide-react";
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -14,7 +16,8 @@ export default function Login() {
     formState: { errors }
   } = useForm();
 
-  // 🔐 Auto redirect if already logged in
+  const [showPassword, setShowPassword] = useState(false);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -71,29 +74,39 @@ export default function Login() {
         </div>
 
         {/* Password */}
-        <div>
-          <label className="block text-gray-700 font-medium mb-1">
-            Password
-          </label>
-          <input
-            type="password"
-            placeholder="Enter password"
-            {...register("password", { required: "Password is required" })}
-            className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-          />
-          {errors.password && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
+      
+<div>
+  <label className="block text-gray-700 font-medium mb-1">
+    Password
+  </label>
 
-        {/* API Error */}
-        {apiError && (
-          <p className="text-red-500 text-sm text-center">
-            {apiError}
-          </p>
-        )}
+  <div className="relative">
+    <input
+      type={showPassword ? "text" : "password"}
+      placeholder="Enter password"
+      className={`w-full border rounded-md px-3 py-2 pr-10 focus:ring-2 focus:ring-purple-500 focus:outline-none ${
+        errors.password ? "border-red-500" : "border-gray-300"
+      }`}
+      {...register("password", {
+        required: "Password is required",
+      })}
+    />
+
+    {/* Eye Icon */}
+    <span
+      onClick={() => setShowPassword(!showPassword)}
+      className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
+    >
+      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+    </span>
+  </div>
+
+  {errors.password && (
+    <p className="text-red-500 text-sm mt-1">
+      {errors.password.message}
+    </p>
+  )}
+</div>
 
         {/* Login Button */}
         <button

@@ -3,10 +3,15 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { signUp } from "../../services/userservice";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+
 
 const Register = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (values) => {
     try {
@@ -51,12 +56,21 @@ const Register = () => {
             className="w-full border px-3 py-2 rounded-md"
           />
 
-          <input
-            type="password"
-            placeholder="Password"
-            {...register("password", { required: true })}
-            className="w-full border px-3 py-2 rounded-md"
-          />
+         <div className="relative">
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Password"
+    {...register("password", { required: true })}
+    className="w-full border px-3 py-2 rounded-md pr-10"
+  />
+
+  <span
+    onClick={() => setShowPassword(!showPassword)}
+    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
+  >
+    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+  </span>
+</div>
 
           <button
             type="submit"
