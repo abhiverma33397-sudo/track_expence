@@ -1,79 +1,66 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { verifyOTP } from "../../services/userservice";
 
-
 const OTPpage = () => {
-const [searchParams, setSearchParams] = useSearchParams();
-const email=searchParams.get("email");
-const navigate=useNavigate();
+  const [params] = useSearchParams();
+  const email = params.get("email");
+  const type = params.get("type");
+  const navigate = useNavigate();
 
-  const {
-    register,
-    handleSubmit,
-    formState : {errors}
-  }=useForm();
+  const { register, handleSubmit } = useForm();
 
-  const onSubmit=async(values)=>{
-    try{
-      values.email=email;
-      const response= await verifyOTP(values);
-      console.log(response)
-      toast.success("OTP Verified👍")
-      navigate(`/NewPassword?email=${email}`);
-    }catch(error){
-      console.log(error)
-      toast.error("Invalid OTP ❌");
+  const onSubmit = async (values) => {
+    try {
+      await verifyOTP({
+        email: email,
+        otp: values.otp
+      });
+
+      toast.success("OTP verified ✅");
+
+      if (type === "signup") {
+        navigate("/login");   // 🔥 final destination
+      } else {
+        navigate(`/NewPassword?email=${email}`);
+      }
+
+    } catch (err) {
+      toast.error(
+        err?.response?.data?.message || "Invalid OTP ❌"
+      );
     }
-  }
-
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center  p-4">
-      <div className="bg-white w-80 max-w-sm rounded-2xl shadow-xl p-6 text-center font-serif">
-        
-        
-        <h2 className="text-xl font-semibold text-purple-600 mb-2">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-100">
+      <div className="bg-white p-6 w-80 rounded-2xl shadow-xl text-center">
+
+        <h2 className="text-xl font-bold text-purple-600 mb-2">
           OTP Verification
         </h2>
-       
 
-       
-        <form onSubmit ={handleSubmit(onSubmit)}>
-          <div className="my-4 text-left">
-            <label className="block mb-1 text-gray-700 font-medium">
-               OTP Code 
-            </label>
-            
-            <input
-            type="text"
-            inputMode="numeric"
-             maxLength={6}
-              placeholder="Enter 6-digit OTP"
-              className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
-            {...register("otp", { required: "OTP is required" })}
-/>
+        <p className="text-sm text-gray-600 mb-4">
+          OTP sent to <b>{email}</b>
+        </p>
 
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <input
+            {...register("otp", { required: true })}
+            maxLength={6}
+            placeholder="000000"
+            className="w-full border px-3 py-2 rounded text-center tracking-widest mb-4"
+          />
 
           <button
             type="submit"
-            // onClick={()=>navigate("/NewPassword")}
-            className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition"
+            className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
           >
             Verify OTP
           </button>
         </form>
-
-       
-        <p className="text-sm mt-4 text-gray-600">
-          Remember your password?{" "}
-          <span className="text-purple-600 cursor-pointer font-medium" onClick={()=>navigate("/login")}>
-            Login
-          </span>
-        </p>
 
       </div>
     </div>

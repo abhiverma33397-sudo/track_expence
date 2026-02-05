@@ -1,122 +1,74 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-
-import baseURL from "../../services/baseurl";
 import toast from "react-hot-toast";
 import { signUp } from "../../services/userservice";
 
+const Register = () => {
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm();
 
+  const onSubmit = async (values) => {
+    try {
+      await signUp(values);
 
-const  SignUp=() =>{
-  const navigate=useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState : {errors}
-  }=useForm();
+      toast.success("Registration successful 🎉 OTP sent to email");
 
-  const onSubmit=async(values)=>{
-  try{
-    const response= await signUp(values);
-    console.log(response)
-    toast.success("Register Successful👍")
-    navigate("/login");
-  
-  }catch(error){
-    console.log(error)
-  }
-}
-  
+      navigate(`/OTPpage?email=${values.email}&type=signup`);
+    } catch (err) {
+      toast.error(
+        err?.response?.data?.message || "Registration failed ❌"
+      );
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center  p-4">
-      <div className="w-full max-w-md bg-white p-6 rounded-2xl shadow-xl">
-        <h1 className="text-center text-3xl font-bold text-purple-600 font-serif mb-6">
-          Register Here
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-100">
+      <div className="bg-white p-8 w-full max-w-md rounded-3xl shadow-2xl">
+
+        <h1 className="text-3xl font-bold text-purple-600 text-center mb-6">
+          Create Account
         </h1>
 
-        <form onSubmit ={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-1 text-left">
-              First Name
-            </label>
-            <input
-              type="text"
-              placeholder="Enter your name"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-              {...register("firstName",{required:"First Name is required"})}
-            />
-            {errors.firstName && (<div className="text-red-500 text-sm mt-1">{errors.firstName.message}</div>
-            )}
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-1 text-left">
-              Last Name
-            </label>
-            <input
-              type="text"
-              placeholder="Enter your name"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-              {...register("lastName",{required:"Last Name is required"})}
-            />
-            {errors.lastName && (<div className="text-red-500 text-sm mt-1">{errors.lastName.message}</div>
-            )}
-          </div>
+          <input
+            placeholder="First Name"
+            {...register("firstName", { required: true })}
+            className="w-full border px-3 py-2 rounded-md"
+          />
 
+          <input
+            placeholder="Last Name"
+            {...register("lastName", { required: true })}
+            className="w-full border px-3 py-2 rounded-md"
+          />
 
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-1 text-left">
-            Email ID
-            </label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-              {...register("email",{required:"Email is required",
-              pattern:{
-                 value: /^\S+@\S+$/i,
-              message: "Invalid email address",}
-              })}
-            />
-              {errors.email && <p className="text-red-600">{errors.email.message}</p>}
+          <input
+            type="email"
+            placeholder="Email"
+            {...register("email", { required: true })}
+            className="w-full border px-3 py-2 rounded-md"
+          />
 
-          </div>
+          <input
+            type="password"
+            placeholder="Password"
+            {...register("password", { required: true })}
+            className="w-full border px-3 py-2 rounded-md"
+          />
 
-          <div className="mb-6">
-            <label className="block text-gray-700 font-medium mb-1 text-left">
-            Password
-            </label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-              {...register("password",{required:"Password is required",})}
-            />
-            {errors.password&& (<div className="text-red-500 text-sm mt-1">{errors.password.message}</div>)}
-          </div>
+          <button
+            type="submit"
+            className="w-full py-3 rounded-md text-white font-semibold bg-purple-600 hover:bg-purple-700"
+          >
+            Register
+          </button>
 
-          <div className="flex gap-4 mb-4 justify-center">
-            <button
-              type="submit"
-              className="w-52 bg-purple-600 text-white font-semibold py-2 rounded-md hover:bg-purple-700 transition "
-            >
-              Submit
-            </button>
-
-        
-          </div>
-
-          <p className="text-center text-sm text-gray-600">
-            Already have an account?{" "}
-            <span className="text-purple-600 cursor-pointer hover:underline" onClick={()=>navigate("/login")}>
-              Login here
-            </span>
-          </p>
         </form>
       </div>
     </div>
   );
 };
 
-export default SignUp;
+export default Register;
