@@ -8,24 +8,10 @@ import useUserDetail from "../hooks/useuserdetails";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { decode } = useUserDetail();
-  console.log(decode)
-
-
-  const activeClass = "text-purple-600 font-semibold";
-  const inactiveClass = "text-gray-600";
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, []);
-
-   const handleLogout=()=>{
-  localStorage.removeItem("token");
-  navigate("/Login");
-}
+  const handleLogout = () => {
+    localStorage.removeItem("token"); 
+    navigate("/"); 
+  };
 
   return (
   <div className=" w-screen flex md:items-center md:justify-center overflow-hidden fixed inset-0">
