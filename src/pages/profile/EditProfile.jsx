@@ -2,28 +2,14 @@ import React, { useState, useEffect } from "react";
 import { IoArrowBack, IoCamera } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import userImg from "../../assets/images/user.jpg";
+import { useForm } from "react-hook-form";
 
-const EditProfile = () => {
+import toast from "react-hot-toast";
+
+const editprofile = () => {
   const navigate = useNavigate();
 
-  const [name, setName] = useState("Abhishek Verma");
-  const [email, setEmail] = useState("abhishek@gmail.com");
-  const [profileImage, setProfileImage] = useState(userImg);
-
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, []);
-
-  // Image change handler
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfileImage(URL.createObjectURL(file));
-    }
-  };
+ 
 
   return (
     <div className="w-screen flex md:items-center md:justify-center overflow-hidden fixed inset-0">
@@ -42,11 +28,14 @@ const EditProfile = () => {
         </h2>
 
         {/* Profile Image with Camera */}
+
+        <form onSubmit={handleSubmit(onSubmit)}>
         <div className="relative w-24 h-24 mx-auto mb-6">
           <img
             src={profileImage}
             alt="Profile"
             className="w-full h-full rounded-full object-cover border-2 border-purple-500 shadow"
+           {...register("profileImage")}
           />
 
           <label className="absolute bottom-0 right-0 bg-purple-600 p-2 rounded-full cursor-pointer shadow">
@@ -56,6 +45,7 @@ const EditProfile = () => {
               accept="image/*"
               className="hidden"
               onChange={handleImageChange}
+              {...register("profileImage")}
             />
           </label>
         </div>
@@ -70,6 +60,7 @@ const EditProfile = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full bg-purple-50 p-3 rounded-xl outline-none border border-purple-200"
+              {...register("name", { required: "Name is required" })}
             />
           </div>
 
@@ -80,6 +71,7 @@ const EditProfile = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-purple-50 p-3 rounded-xl outline-none border border-purple-200"
+              {...register("email", { required: "Email is required" })}
             />
           </div>
 
@@ -93,9 +85,10 @@ const EditProfile = () => {
           Save Changes
         </button>
 
+       </form>
       </div>
     </div>
   );
 };
 
-export default EditProfile;
+export default editprofile;

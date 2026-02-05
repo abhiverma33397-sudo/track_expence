@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { IoArrowBack } from "react-icons/io5";
-import { FaUserEdit, FaSignOutAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { FaUserEdit, FaSignOutAlt, FaHome, FaListAlt, FaUser } from "react-icons/fa";
+import { useNavigate, useLocation } from "react-router-dom";
 import user from "../../assets/images/user.jpg";
-import { useUserDetail } from "../../component/hooks/useUserDetail";
+import useUserDetail from "../hooks/useuserdetails";
+
 
 const Profile = () => {
-  const { decode } = useUserDetail();
-  console.log(decode);
-  
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("token"); 
@@ -20,64 +18,62 @@ const Profile = () => {
      
       <div className="bg-white w-full max-w-md rounded-2xl md:shadow-xl p-6 font-serif relative">
 
-         <button
-          onClick={() => navigate("/dashboard")}
+        {/* Back */}
+        <button
+          onClick={() => navigate("/Dashboard")}
           className="absolute top-4 left-4 text-purple-600"
         >
           <IoArrowBack size={24} />
         </button>
+       
 
         <h2 className="text-center text-xl font-semibold text-purple-600 mb-6">
           Profile
         </h2>
 
-        {/*  User Image */}
         <img
           src={user}
           alt="User"
           className="w-20 h-20 mx-auto rounded-full border-2 border-purple-500 shadow mb-3"
         />
 
-        {/*  User Info */}
         <div className="text-center mb-6">
-            <p className="text-sm font-medium text-gray-700">
-          {decode &&
-            decode[
-             "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-            ]}
+          <p>
+          {decode ?.name}
         </p>
 
-         <p className="text-xs text-gray-500">
-          {decode &&
-            decode[
-              "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
-            ]}
-        </p>
+
+          <p>
+          {decode ?.email}
+          </p>
         </div>
 
-        {/* Buttons */}
         <div className="space-y-4">
           <button
-            onClick={() => navigate("/editprofile")}
+            onClick={() => navigate("/EditProfile")}
             className="w-full flex items-center justify-between bg-purple-100 text-purple-700 px-4 py-3 rounded-xl"
           >
             Edit Profile <FaUserEdit />
           </button>
 
           <button
-            onClick={() => navigate("/changepassword")}
+            onClick={() => navigate("/ChangePassword")}
             className="w-full flex items-center justify-between bg-purple-100 text-purple-700 px-4 py-3 rounded-xl"
           >
             Change Password <FaUserEdit />
           </button>
 
-          <button
-            onClick={handleLogout}
+
+          {/* Logout Button */}
+            <button onClick={handleLogout} 
+            
             className="w-full flex items-center justify-between bg-red-100 text-red-600 px-4 py-3 rounded-xl"
-          >
-            Logout <FaSignOutAlt />
+          >     
+          Logout <FaSignOutAlt />
           </button>
         </div>
+
+       
       </div>
     </div>
   );
