@@ -3,11 +3,12 @@ import { IoArrowBack } from "react-icons/io5";
 import { FaUserEdit, FaSignOutAlt, FaHome, FaListAlt, FaUser } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 import user from "../../assets/images/user.jpg";
-import useUserDetail from "../hooks/useuserdetails";
+import { useUserDetail } from "../hooks/useuserdetails";
 
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { decode } = useUserDetail();
   const handleLogout = () => {
     localStorage.removeItem("token"); 
     navigate("/"); 
