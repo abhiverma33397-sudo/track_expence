@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import user from "../../assets/images/user.jpg";
 import { useNavigate } from "react-router-dom";
+import { useUserDetail } from "../hooks/useuserdetails";
 import {
   FaUtensils,
   FaBus,
@@ -15,7 +16,7 @@ const Dashboard = () => {
 
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [selectedIncome, setSelectedIncome] = useState(null);
-
+ const { decode } = useUserDetail();
 
   return (
     <div className="min-h-screen  flex items-center justify-center ">
@@ -29,7 +30,7 @@ const Dashboard = () => {
             className="w-16 h-16 mx-auto rounded-full border-2 border-purple-500 shadow"
           />
           <p className="mt-3 text-purple-700 font-semibold">
-            Abhishek Kumar
+            {decode ?.Name}
           </p>
         </div>
 

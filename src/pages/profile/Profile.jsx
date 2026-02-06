@@ -40,12 +40,12 @@ const Profile = () => {
 
         <div className="text-center mb-6">
           <p>
-          {decode ?.name}
+          {decode ?.Name}
         </p>
 
 
           <p>
-          {decode ?.email}
+          {decode ?.Email}
           </p>
         </div>
 
