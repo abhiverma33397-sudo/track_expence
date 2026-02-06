@@ -9,7 +9,7 @@ const OTPpage = () => {
   const navigate = useNavigate();
 
   const email = params.get("email");
-  const type = params.get("type"); // signup | forget
+  const type = params.get("type"); 
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -21,8 +21,8 @@ const OTPpage = () => {
 
     try {
       const payload = {
-        email: email,
-        otp: String(values.otp), // 🔥 OTP always string
+        username: email,
+        otp: String(values.otp), 
         type: type,
       };
 
