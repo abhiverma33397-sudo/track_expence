@@ -14,7 +14,7 @@ export const verifyOTP = (values) =>
 
 
 export const forgotPassword = (values) =>
-  baseURL.post("Auth/forgot-password", {
+  baseURL.post("UserLogin/forget-password", {
     email: values?.email || values?.Email,
   });
 

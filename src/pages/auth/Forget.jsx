@@ -15,29 +15,32 @@ const ForgetPassword = () => {
     formState : {errors}
   }=useForm();
 
-  const onSubmit=async(values)=>{
-        
-    try{
-      const response= await forgotPassword(values);
-      console.log(response)
-      toast.success("OTP sent to your Email 👍")
-      navigate("/OTPpage?email="+values.Email);
-    }catch(error){
-      console.error("forgotPassword error:", error.response || error);
-      const message =
-        error?.response?.data?.message ||
-        error?.message ||
-        "Something went wrong. Please try again.";
+  const onSubmit = async (values) => {
+  try {
+    const payload = {
+      email: values.email
+    };
 
-      toast.error(message);
-    }
+    const response = await forgotPassword(payload);
+    console.log(response);
+
+    toast.success("OTP sent to your Email 👍");
+    navigate("/OTPpage?email=" + values.email);
+
+  } catch (error) {
+    const message =
+      error?.response?.data?.messages?.[0] ||
+      "Something went wrong. Please try again.";
+
+    toast.error(message);
   }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center p-2">
       <div className="bg-white w-80 max-w-sm rounded-2xl shadow-xl p-6 text-center font-serif">
         
-        {/* Title */}
+        
         <h2 className="text-xl font-semibold text-purple-600 mb-2">
           Forgot Password
         </h2>
@@ -50,21 +53,23 @@ const ForgetPassword = () => {
               Email  
             </label>
             <input
-              type="email"
-              placeholder="Enter your email address"
-              className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
-              {...register("Email",{required:"Email is required"})}
-            />
+  type="email"
+  placeholder="Enter your email address"
+  className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
+  {...register("email",{required:"Email is required"})}
+/>
+
             {errors.Email && (<div className="text-red-500 text-sm mt-1">{errors.Email.message}</div> )}
 
           </div>
 
           <button
-            type="submit"
-            className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition"
-          >
-            Send OTP
-          </button>
+  type="submit"
+  className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition"
+>
+  Send OTP
+</button>
+
         </form>
 
         {/* Back to login */}
