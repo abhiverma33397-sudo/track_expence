@@ -13,38 +13,22 @@ const OTPpage = () => {
 
   const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = async (values) => {
-    if (!email || !type) {
-      toast.error("Invalid OTP request ❌");
-      return;
-    }
+const onSubmit = async (values) => {
+  try {
+    const payload = {
+      userName: email,
+      otp: values.otp,
+      type: type || "signup",
+    };
 
-    try {
-      const payload = {
-        username: email,
-        otp: String(values.otp), 
-        type: type,
-      };
+   await verifyOTP(payload);
+    toast.success("OTP verified ✅");
 
-      console.log("OTP VERIFY PAYLOAD 👉", payload);
-
-      await verifyOTP(payload);
-
-      toast.success("OTP verified ✅");
-
-      reset();
-
-      if (type === "signup") {
-        navigate("/login");
-      } else {
-        navigate(`/NewPassword?email=${email}`);
-      }
-    } catch (err) {
-      toast.error(
-        err?.response?.data?.message || "Invalid OTP ❌"
-      );
-    }
-  };
+    navigate(type === "signup" ? "/login" : `/NewPassword?email=${email}`);
+  } catch (err) {
+    toast.error(err?.response?.data?.message || "Invalid OTP ❌");
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-100">

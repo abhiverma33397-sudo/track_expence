@@ -459,7 +459,6 @@ function Firstpage() {
             md:text-lg
             text-purple-600
             mb-6
-            
             px-1
           "
         >

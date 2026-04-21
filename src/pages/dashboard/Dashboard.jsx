@@ -59,8 +59,8 @@ const Dashboard = () => {
           type="expense"
           selected={selectedExpense}
           setSelected={setSelectedExpense}
-          onAdd={() => navigate("/Addcstm")}
-          onSubmit={() => navigate("/AddExpense")}
+          onAdd={() => navigate("/Add-Custom-Expense")}
+          onSubmit={() => navigate("/Add-Expense")}
           items={[
             { name: "Food", icon: <FaUtensils /> },
             { name: "Travel", icon: <FaBus /> },
@@ -76,8 +76,8 @@ const Dashboard = () => {
           type="income"
           selected={selectedIncome}
           setSelected={setSelectedIncome}
-          onAdd={() => navigate("/CustomIncom")}
-          onSubmit={() => navigate("/AddIncome")}
+          onAdd={() => navigate("/Custom-Income")}
+          onSubmit={() => navigate("/Add-Income")}
           items={[
             { name: "Salary", icon: <FaMoneyBillWave /> },
             { name: "Business", icon: <FaBriefcase /> },

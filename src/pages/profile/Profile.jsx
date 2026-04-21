@@ -6,11 +6,12 @@ import user from "../../assets/images/user.jpg";
 import { useUserDetail } from "../hooks/useuserdetails";
 
 
+
 const Profile = () => {
   const navigate = useNavigate();
   const { decode } = useUserDetail();
   const handleLogout = () => {
-    localStorage.removeItem("token"); 
+    localStorage.removeItem("token");   
     navigate("/"); 
   };
 
@@ -51,7 +52,7 @@ const Profile = () => {
 
         <div className="space-y-4">
           <button
-            onClick={() => navigate("/EditProfile")}
+            onClick={() => navigate("/edit-profile")}
             className="w-full flex items-center justify-between bg-purple-100 text-purple-700 px-4 py-3 rounded-xl"
           >
             Edit Profile <FaUserEdit />

@@ -42,9 +42,10 @@ function Router() {
           <Route path="/add-expense" element={<AppLayout><AddExpense /></AppLayout>} />
           <Route path="/add-income" element={<AppLayout><AddIncome /></AppLayout>} />
           <Route path="/profile" element={<AppLayout><Profile /></AppLayout>} />
+          <Route path="/edit-profile" element={<AppLayout><EditProfile /></AppLayout>} />
           <Route path="/add-custom-expense" element={<AppLayout><Addcstm /></AppLayout>} />
           <Route path="/custom-income" element={<AppLayout><CustomIncom /></AppLayout>} />
-          <Route path="/edit-profile" element={<AppLayout><EditProfile /></AppLayout>} />
+          
           <Route path="/category" element={<AppLayout><Category /></AppLayout>} />
 
         </Routes>

@@ -79,6 +79,13 @@ const Register = () => {
             Register
           </button>
 
+           <p className="text-sm mt-4 text-gray-600">
+          
+          <span className="text-purple-600 cursor-pointer font-medium" onClick={()=>navigate("/login")}>
+            Login
+          </span>
+        </p>
+
         </form>
       </div>
     </div>
