@@ -1,88 +1,318 @@
-import React, { useState } from "react";
+// import React, { use, useState } from "react";
+// import { IoArrowBack } from "react-icons/io5";
+// import { useNavigate } from "react-router-dom";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+// import dayjs from "dayjs";
+// import { useForm } from "react-hook-form";
+
+// function AddExpense() {
+//   const navigate = useNavigate();
+//   const[loading,setLoading]=useState(false);
+//   const{
+//     handleSubmit,
+//     register,
+//     reset,
+//     formState:{errors}
+//   }=useForm();
+//   const onSubmit=async(values)=>{
+//     setLoading(true);
+//     console.log("clicked");
+//     const response=await baseURL.post("Transaction",{
+//       amount:values.amount,
+//       note:values.note,
+//       date:values.date,
+//       transactionCategoryId:6,
+    
+//     });
+//     console.log(values);
+//     console.log("Expense Added:",response.data);
+//     reset();
+//     setLoading(false);
+//     navigate("/Dashboard");
+//   }
+
+
+//   return (
+//     <div className="min-h-screen flex items-center justify-center p-4 ">
+//       <div className="bg-[#f7f9fc] w-80 max-w-sm rounded-3xl shadow-xl p-6 font-serif relative">
+//         {/* Back Button */}
+//         <button
+//           onClick={() => navigate("/Dashboard")}
+//           className="absolute top-4 left-4 text-purple-600"
+//         >
+//           <IoArrowBack size={24} />
+//         </button>
+
+//         {/* Heading */}
+//         <h2 className="text-center text-lg font-semibold text-purple-600 mb-6">
+//           Add Expense
+//         </h2>
+
+//         {/* Amount Input */}
+//         <form onSubmit={handleSubmit(onSubmit)}>
+//         <div className="bg-white rounded-full py-3 mb-6 flex items-center justify-center shadow">
+//           <span className="text-gray-400 text-xl mr-1">₹</span>
+//           <input
+//             type="number"
+//             {...register("amount", { required: "Amount is required" })}
+//             placeholder="0"
+//             className="w-24 text-4xl font-semibold text-purple-500 text-center outline-none bg-transparent"
+//           />
+//         </div>
+
+//         {/* Note */}
+//         <input
+//           type="text"
+//           {...register("note", { required: "Note is required" })}
+//           placeholder="Note"
+//           className="w-full bg-white p-3 rounded-xl mb-4 shadow outline-none"
+//         />
+
+//         {/* Date Picker */}
+//         <div className="w-full bg-white rounded-xl shadow p-3 mb-4">
+//           <LocalizationProvider dateAdapter={AdapterDayjs}>
+//             <DatePicker
+//               label="Select Date"
+//               {...register("date", { required: "Date is required" })}
+//               format="DD-MM-YYYY"
+//               sx={{ width: "100%" }}
+//               slotProps={{
+//                 popper: {
+//                   sx: {
+//                     "& .MuiPaper-root": {
+//                       width: 300,
+//                       maxWidth: "100%",
+//                     },
+//                   },
+//                 },
+//               }}
+//             />
+//           </LocalizationProvider>
+//         </div>
+
+//         {/* Submit Button */}
+//         <button
+//           onClick={() => navigate("/Dashboard")}
+//           className="w-full mt-6 bg-purple-600 text-white py-2 rounded-xl"
+//         >
+//           Add Expense
+//         </button>
+//         </form>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default AddExpense;
+import React, { useEffect, useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import { useForm, Controller } from "react-hook-form";
+
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
 import dayjs from "dayjs";
+
+import baseURL from "../../services/baseurl";
 
 function AddExpense() {
   const navigate = useNavigate();
-  const [amount, setAmount] = useState("");
-  const [note, setNote] = useState("");
-  const [date, setDate] = useState(dayjs());
+  const location = useLocation();
+let token;
+  // CATEGORY FROM DASHBOARD
+  const selectedCategory = location.state?.category;
+
+  const [loading, setLoading] = useState(false);
+
+  const {
+    handleSubmit,
+    register,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      date: dayjs(),
+    },
+  });
+useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("Token:", token);
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
+  // =========================
+  // SUBMIT
+  // =========================
+  const onSubmit = async (values) => {
+    try {
+      setLoading(true);
+
+     
+
+      console.log("Form Values:", values);
+
+      const response = await baseURL.post(
+        "Transaction",
+        {
+          amount: Number(values.amount),
+          note: values.note,
+          date: values.date.format("YYYY-MM-DD"),
+          transactionCategoryId: 5,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Expense Added:", response.data);
+
+      reset();
+
+      navigate("/dashboard");
+
+    } catch (error) {
+      console.log(error);
+
+      console.error(
+        "Expense Error:",
+        error.response?.data || error.message
+      );
+
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 ">
-      <div className="bg-[#f7f9fc] w-80 max-w-sm rounded-3xl shadow-xl p-6 font-serif relative">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-50 to-pink-50">
 
-        {/* Back Button */}
+      <div className="bg-[#f7f9fc] w-full max-w-sm rounded-3xl shadow-xl p-6 relative">
+
+        {/* BACK BUTTON */}
         <button
-          onClick={() => navigate("/Dashboard")}
-          className="absolute top-4 left-4 text-purple-600">
+          onClick={() => navigate("/dashboard")}
+          className="absolute top-4 left-4 text-purple-600"
+        >
           <IoArrowBack size={24} />
         </button>
 
-        {/* Heading */}
-        <h2 className="text-center text-lg font-semibold text-purple-600 mb-6">
+        {/* HEADING */}
+        <h2 className="text-center text-2xl font-bold text-purple-600 mb-2">
           Add Expense
         </h2>
 
-        {/* Amount Input */}
-        <div className="bg-white rounded-full py-3 mb-6 flex items-center justify-center shadow">
-          <span className="text-gray-400 text-xl mr-1">₹</span>
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            placeholder="0"
-            className="w-24 text-4xl font-semibold text-purple-500 text-center outline-none bg-transparent"
-          />
-        </div>
+        {/* SELECTED CATEGORY */}
+        {selectedCategory && (
+          <p className="text-center text-sm text-purple-500 mb-6">
+            Category:{" "}
+            <span className="font-semibold capitalize">
+              {selectedCategory}
+            </span>
+          </p>
+        )}
 
-        {/* Note */}
-        <input
-          type="text"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          placeholder="Note"
-          className="w-full bg-white p-3 rounded-xl mb-4 shadow outline-none"
-        />
+        {/* FORM */}
+        <form onSubmit={handleSubmit(onSubmit)}>
 
-       
-       {/* Date Picker */}
-<div className="w-full bg-white rounded-xl shadow p-3 mb-4">
-  <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <DatePicker
-      label="Select Date"
-      value={date}
-      onChange={(newValue) => setDate(newValue)}
-      format="DD-MM-YYYY"
-      sx={{ width: "100%" }}
-        slotProps={{
-    popper: {
-      sx: {
-        '& .MuiPaper-root': {
-          width: 300,       
-          maxWidth: '100%',
-        },
-      },
-    },
+          {/* AMOUNT */}
+          <div className="bg-white rounded-full py-3 mb-2 flex items-center justify-center shadow">
 
-      }}
-    />
-  </LocalizationProvider>
-</div>
+            <span className="text-gray-400 text-xl mr-1">
+              ₹
+            </span>
 
+            <input
+              type="number"
+              placeholder="0"
+              className="w-28 text-4xl font-bold text-purple-500 text-center outline-none bg-transparent"
+              {...register("amount", {
+                required: "Amount is required",
+              })}
+            />
+          </div>
 
-        {/* Submit Button */}
-        <button
-          onClick={() => navigate("/Dashboard")}
-          className="w-full mt-6 bg-purple-600 text-white py-2 rounded-xl"
-        >
-          Add Expense
-        </button>
+          {/* AMOUNT ERROR */}
+          {errors.amount && (
+            <p className="text-red-500 text-sm mb-4 text-center">
+              {errors.amount.message}
+            </p>
+          )}
 
+          {/* NOTE */}
+          <div className="mb-4">
+
+            <input
+              type="text"
+              placeholder="Enter note"
+              className="w-full bg-white p-3 rounded-xl shadow outline-none"
+              {...register("note", {
+                required: "Note is required",
+              })}
+            />
+
+            {/* NOTE ERROR */}
+            {errors.note && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.note.message}
+              </p>
+            )}
+
+          </div>
+
+          {/* DATE PICKER */}
+          <div className="w-full bg-white rounded-xl shadow p-3 mb-4">
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+              <Controller
+                name="date"
+                control={control}
+                rules={{
+                  required: "Date is required",
+                }}
+                render={({ field }) => (
+                  <DatePicker
+                    label="Select Date"
+                    value={field.value}
+                    onChange={(newValue) =>
+                      field.onChange(newValue)
+                    }
+                    format="DD-MM-YYYY"
+                    sx={{ width: "100%" }}
+                  />
+                )}
+              />
+
+            </LocalizationProvider>
+
+            {/* DATE ERROR */}
+            {errors.date && (
+              <p className="text-red-500 text-sm mt-2">
+                {errors.date.message}
+              </p>
+            )}
+
+          </div>
+
+          {/* SUBMIT BUTTON */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full mt-4 bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl font-semibold transition disabled:opacity-50"
+          >
+            {loading ? "Adding..." : "Add Expense"}
+          </button>
+
+        </form>
       </div>
     </div>
   );
