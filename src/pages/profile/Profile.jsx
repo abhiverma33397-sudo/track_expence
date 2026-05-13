@@ -10,8 +10,10 @@ import { useUserDetail } from "../hooks/useuserdetails";
 const Profile = () => {
   const navigate = useNavigate();
   const { decode } = useUserDetail();
+ console.log(decode)
   const handleLogout = () => {
     localStorage.removeItem("token");   
+    localStorage.removeItem("email");   
     navigate("/"); 
   };
 
@@ -34,20 +36,16 @@ const Profile = () => {
         </h2>
 
         <img
-          src={user}
+          src={user}            
           alt="User"
           className="w-20 h-20 mx-auto rounded-full border-2 border-purple-500 shadow mb-3"
         />
 
         <div className="text-center mb-6">
           <p>
-          {decode ?.Name}
+          {decode?.UserName}
         </p>
 
-
-          <p>
-          {decode ?.Email}
-          </p>
         </div>
 
         <div className="space-y-4">

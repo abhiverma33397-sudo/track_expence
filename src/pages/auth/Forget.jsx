@@ -18,14 +18,14 @@ const ForgetPassword = () => {
   const onSubmit = async (values) => {
   try {
     const payload = {
-      email: values.email
+      emailId: values.emailId
     };
 
     const response = await forgotPassword(payload);
     console.log(response);
 
     toast.success("OTP sent to your Email 👍");
-    navigate("/OTPpage?email=" + values.email);
+navigate("/OTPpage?email=" + values.emailId);
 
   } catch (error) {
     const message =
@@ -56,11 +56,10 @@ const ForgetPassword = () => {
   type="email"
   placeholder="Enter your email address"
   className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
-  {...register("email",{required:"Email is required"})}
+  {...register("emailId",{required:"Email is required"})}
 />
 
-            {errors.Email && (<div className="text-red-500 text-sm mt-1">{errors.Email.message}</div> )}
-
+          {errors.emailId && <div className="text-red-500 text-sm mt-1">{errors.emailId.message}</div>}
           </div>
 
           <button

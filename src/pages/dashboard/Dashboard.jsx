@@ -13,10 +13,9 @@ import {
 
 const Dashboard = () => {
   const navigate = useNavigate();
-
+const { decode } = useUserDetail();
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [selectedIncome, setSelectedIncome] = useState(null);
- const { decode } = useUserDetail();
 
   return (
     <div className="min-h-screen  flex items-center justify-center ">
@@ -30,7 +29,7 @@ const Dashboard = () => {
             className="w-16 h-16 mx-auto rounded-full border-2 border-purple-500 shadow"
           />
           <p className="mt-3 text-purple-700 font-semibold">
-            {decode ?.Name}
+            {decode?.UserName}
           </p>
         </div>
 

@@ -2,31 +2,26 @@ import baseURL from "./baseurl";
 
 
 export const login = (values) =>
-  baseURL.post("user login/login", values);
+  baseURL.post("Auth/login", values);
 
 
 export const signUp = (values) =>
-  baseURL.post("user login/register", values);
+  baseURL.post("User", values);
 
 
 export const verifyOTP = (values) =>
-  baseURL.post("user login/verify-otp", values);
+  baseURL.post("Auth/otp-verify", values);
 
 
 export const forgotPassword = (values) =>
-  baseURL.post("user login/forget-password", {
-    userName: values.email,   
-    isRegisterOtp: false,
-    isLoginOtp: false,
+  baseURL.post("Auth/forget-password", {
+    emailId: values.emailId
   });
  
-// export const verifyOTP = (values) =>
-//   baseURL.post("user login/verify-otp", values);
 
-  
-export const resetPassword = (values) =>
-  baseURL.post("user login/reset-password", values);
+// export const resetPassword = (values) =>
+//   baseURL.post("Auth/reset-password", values);
 
 
 export const changePassword = (values) =>
-  baseURL.post("user login/change-password", values);
+  baseURL.post("Auth/change-password", values);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { resetPassword } from "../../services/userservice";
+// import { resetPassword } from "../../services/userservice";
 import toast from "react-hot-toast";
 
 const CreateNewPassword = () => {

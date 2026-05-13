@@ -31,8 +31,9 @@ export default function Login() {
       const response = await login(values);
 
       toast.success("Login Successful 👍");
-
-      localStorage.setItem("token", response?.data?.token);
+console.log(response);
+      localStorage.setItem("token", response?.data);
+      localStorage.setItem("email", values.userName);
 
       navigate("/Dashboard");
     } catch (error) {
@@ -63,12 +64,12 @@ export default function Login() {
           <input
             type="email"
             placeholder="Enter email"
-            {...register("email", { required: "Email is required" })}
+            {...register("userName", { required: "Email is required" })}
             className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
           />
-          {errors.email && (
+          {errors.userName && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.email.message}
+              {errors.userName.message}
             </p>
           )}
         </div>

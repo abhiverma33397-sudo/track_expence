@@ -12,13 +12,13 @@ const OTPpage = () => {
   const type = params.get("type"); 
 
   const { register, handleSubmit, reset } = useForm();
-
+console.log(email,type)
 const onSubmit = async (values) => {
   try {
     const payload = {
       userName: email,
-      otp: values.otp,
-      type: type || "signup",
+      otpCode: values.otp
+      
     };
 
    await verifyOTP(payload);
