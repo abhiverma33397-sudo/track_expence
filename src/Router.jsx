@@ -19,6 +19,8 @@ import CustomIncom from "./pages/income/customIncom";
 import Category from "./pages/category/Category";
 import EditProfile from "./pages/profile/EditProfile";
 import AppLayout from "./pages/layouts/layout";
+import EditExpensePage from "./pages/dashboard/EditExpensePage";
+
 
 function Router() {
   return (
@@ -28,7 +30,7 @@ function Router() {
       <BrowserRouter>
         <Routes>
 
-          {/* 🔓 AUTH PAGES (NO LAYOUT) */}
+          {/* AUTH PAGES */}
           <Route path="/" element={<Firstpage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -37,16 +39,95 @@ function Router() {
           <Route path="/NewPassword" element={<NewPassword />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
 
-          {/* 🔐 APP PAGES (WITH LAYOUT) */}
-          <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
-          <Route path="/add-expense" element={<AppLayout><AddExpense /></AppLayout>} />
-          <Route path="/add-income" element={<AppLayout><AddIncome /></AppLayout>} />
-          <Route path="/profile" element={<AppLayout><Profile /></AppLayout>} />
-          <Route path="/edit-profile" element={<AppLayout><EditProfile /></AppLayout>} />
-          <Route path="/add-custom-expense" element={<AppLayout><Addcstm /></AppLayout>} />
-          <Route path="/custom-income" element={<AppLayout><CustomIncom /></AppLayout>} />
-          
-          <Route path="/category" element={<AppLayout><Category /></AppLayout>} />
+          {/* DASHBOARD */}
+          <Route
+            path="/dashboard"
+            element={
+              <AppLayout>
+                <Dashboard />
+              </AppLayout>
+            }
+          />
+
+          {/* ADD EXPENSE */}
+          <Route
+            path="/add-expense/:id"
+            element={
+              <AppLayout>
+                <AddExpense />
+              </AppLayout>
+            }
+          />
+
+          {/* ADD INCOME */}
+          <Route
+            path="/add-income"
+            element={
+              <AppLayout>
+                <AddIncome />
+              </AppLayout>
+            }
+          />
+
+          {/* PROFILE */}
+          <Route
+            path="/profile"
+            element={
+              <AppLayout>
+                <Profile />
+              </AppLayout>
+            }
+          />
+
+          {/* EDIT PROFILE */}
+          <Route
+            path="/edit-profile"
+            element={
+              <AppLayout>
+                <EditProfile />
+              </AppLayout>
+            }
+          />
+
+          {/* CUSTOM EXPENSE */}
+          <Route
+            path="/add-custom-expense"
+            element={
+              <AppLayout>
+                <Addcstm />
+              </AppLayout>
+            }
+          />
+
+          {/* CUSTOM INCOME */}
+          <Route
+            path="/custom-income"
+            element={
+              <AppLayout>
+                <CustomIncom />
+              </AppLayout>
+            }
+          />
+
+          {/* CATEGORY */}
+          <Route
+            path="/category"
+            element={
+              <AppLayout>
+                <Category />
+              </AppLayout>
+            }
+          />
+
+          {/* EDIT EXPENSE */}
+          <Route
+            path="/edit-expense/:id"
+            element={
+              <AppLayout>
+                <EditExpensePage />
+              </AppLayout>
+            }
+          />
 
         </Routes>
       </BrowserRouter>

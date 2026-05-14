@@ -1,115 +1,7 @@
-// import React, { use, useState } from "react";
-// import { IoArrowBack } from "react-icons/io5";
-// import { useNavigate } from "react-router-dom";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-// import dayjs from "dayjs";
-// import { useForm } from "react-hook-form";
 
-// function AddExpense() {
-//   const navigate = useNavigate();
-//   const[loading,setLoading]=useState(false);
-//   const{
-//     handleSubmit,
-//     register,
-//     reset,
-//     formState:{errors}
-//   }=useForm();
-//   const onSubmit=async(values)=>{
-//     setLoading(true);
-//     console.log("clicked");
-//     const response=await baseURL.post("Transaction",{
-//       amount:values.amount,
-//       note:values.note,
-//       date:values.date,
-//       transactionCategoryId:6,
-    
-//     });
-//     console.log(values);
-//     console.log("Expense Added:",response.data);
-//     reset();
-//     setLoading(false);
-//     navigate("/Dashboard");
-//   }
-
-
-//   return (
-//     <div className="min-h-screen flex items-center justify-center p-4 ">
-//       <div className="bg-[#f7f9fc] w-80 max-w-sm rounded-3xl shadow-xl p-6 font-serif relative">
-//         {/* Back Button */}
-//         <button
-//           onClick={() => navigate("/Dashboard")}
-//           className="absolute top-4 left-4 text-purple-600"
-//         >
-//           <IoArrowBack size={24} />
-//         </button>
-
-//         {/* Heading */}
-//         <h2 className="text-center text-lg font-semibold text-purple-600 mb-6">
-//           Add Expense
-//         </h2>
-
-//         {/* Amount Input */}
-//         <form onSubmit={handleSubmit(onSubmit)}>
-//         <div className="bg-white rounded-full py-3 mb-6 flex items-center justify-center shadow">
-//           <span className="text-gray-400 text-xl mr-1">₹</span>
-//           <input
-//             type="number"
-//             {...register("amount", { required: "Amount is required" })}
-//             placeholder="0"
-//             className="w-24 text-4xl font-semibold text-purple-500 text-center outline-none bg-transparent"
-//           />
-//         </div>
-
-//         {/* Note */}
-//         <input
-//           type="text"
-//           {...register("note", { required: "Note is required" })}
-//           placeholder="Note"
-//           className="w-full bg-white p-3 rounded-xl mb-4 shadow outline-none"
-//         />
-
-//         {/* Date Picker */}
-//         <div className="w-full bg-white rounded-xl shadow p-3 mb-4">
-//           <LocalizationProvider dateAdapter={AdapterDayjs}>
-//             <DatePicker
-//               label="Select Date"
-//               {...register("date", { required: "Date is required" })}
-//               format="DD-MM-YYYY"
-//               sx={{ width: "100%" }}
-//               slotProps={{
-//                 popper: {
-//                   sx: {
-//                     "& .MuiPaper-root": {
-//                       width: 300,
-//                       maxWidth: "100%",
-//                     },
-//                   },
-//                 },
-//               }}
-//             />
-//           </LocalizationProvider>
-//         </div>
-
-//         {/* Submit Button */}
-//         <button
-//           onClick={() => navigate("/Dashboard")}
-//           className="w-full mt-6 bg-purple-600 text-white py-2 rounded-xl"
-//         >
-//           Add Expense
-//         </button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default AddExpense;
 import React, { useEffect, useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
-import { useLocation, useNavigate } from "react-router-dom";
-
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -117,14 +9,19 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import dayjs from "dayjs";
-
 import baseURL from "../../services/baseurl";
 
 function AddExpense() {
   const navigate = useNavigate();
   const location = useLocation();
-let token;
-  // CATEGORY FROM DASHBOARD
+
+  // FIXED HERE
+  const { id } = useParams();
+
+  // TOKEN
+  const token = localStorage.getItem("token");
+
+  // CATEGORY NAME FROM PREVIOUS PAGE
   const selectedCategory = location.state?.category;
 
   const [loading, setLoading] = useState(false);
@@ -140,32 +37,44 @@ let token;
       date: dayjs(),
     },
   });
-useEffect(() => {
-    const token = localStorage.getItem("token");
+
+  // CHECK LOGIN
+  useEffect(() => {
     console.log("Token:", token);
+    console.log("Category Id:", id);
+
     if (!token) {
       navigate("/login");
     }
-  }, [navigate]);
-  // =========================
-  // SUBMIT
-  // =========================
+  }, [navigate, token, id]);
+
+  // SUBMIT FORM
   const onSubmit = async (values) => {
     try {
       setLoading(true);
 
-     
+      // VALIDATION
+      if (!id) {
+        alert("Category Id is missing");
+        return;
+      }
 
       console.log("Form Values:", values);
 
+      const payload = {
+        amount: Number(values.amount),
+        note: values.note,
+        date: values.date.format("YYYY-MM-DD"),
+
+        // FIXED HERE
+        transactionCategoryId: Number(id),
+      };
+
+      console.log("Payload:", payload);
+
       const response = await baseURL.post(
-        "Transaction",
-        {
-          amount: Number(values.amount),
-          note: values.note,
-          date: values.date.format("YYYY-MM-DD"),
-          transactionCategoryId: 5,
-        },
+        "/Transaction",
+        payload,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -175,10 +84,15 @@ useEffect(() => {
 
       console.log("Expense Added:", response.data);
 
-      reset();
+      // RESET FORM
+      reset({
+        amount: "",
+        note: "",
+        date: dayjs(),
+      });
 
+      // NAVIGATE
       navigate("/dashboard");
-
     } catch (error) {
       console.log(error);
 
@@ -187,6 +101,10 @@ useEffect(() => {
         error.response?.data || error.message
       );
 
+      alert(
+        error.response?.data?.message ||
+          "Failed to add expense"
+      );
     } finally {
       setLoading(false);
     }
@@ -194,7 +112,7 @@ useEffect(() => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-50 to-pink-50">
-
+      
       <div className="bg-[#f7f9fc] w-full max-w-sm rounded-3xl shadow-xl p-6 relative">
 
         {/* BACK BUTTON */}
@@ -210,11 +128,12 @@ useEffect(() => {
           Add Expense
         </h2>
 
-        {/* SELECTED CATEGORY */}
+        {/* CATEGORY */}
         {selectedCategory && (
           <p className="text-center text-sm text-purple-500 mb-6">
-            Category:{" "}
+            Category:
             <span className="font-semibold capitalize">
+              {" "}
               {selectedCategory}
             </span>
           </p>
@@ -226,9 +145,7 @@ useEffect(() => {
           {/* AMOUNT */}
           <div className="bg-white rounded-full py-3 mb-2 flex items-center justify-center shadow">
 
-            <span className="text-gray-400 text-xl mr-1">
-              ₹
-            </span>
+            <span className="text-gray-400 text-xl mr-1">₹</span>
 
             <input
               type="number"
@@ -249,7 +166,6 @@ useEffect(() => {
 
           {/* NOTE */}
           <div className="mb-4">
-
             <input
               type="text"
               placeholder="Enter note"
@@ -259,13 +175,11 @@ useEffect(() => {
               })}
             />
 
-            {/* NOTE ERROR */}
             {errors.note && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.note.message}
               </p>
             )}
-
           </div>
 
           {/* DATE PICKER */}
@@ -283,9 +197,7 @@ useEffect(() => {
                   <DatePicker
                     label="Select Date"
                     value={field.value}
-                    onChange={(newValue) =>
-                      field.onChange(newValue)
-                    }
+                    onChange={(newValue) => field.onChange(newValue)}
                     format="DD-MM-YYYY"
                     sx={{ width: "100%" }}
                   />
@@ -300,7 +212,6 @@ useEffect(() => {
                 {errors.date.message}
               </p>
             )}
-
           </div>
 
           {/* SUBMIT BUTTON */}
@@ -311,7 +222,6 @@ useEffect(() => {
           >
             {loading ? "Adding..." : "Add Expense"}
           </button>
-
         </form>
       </div>
     </div>
