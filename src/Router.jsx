@@ -19,7 +19,10 @@ import CustomIncom from "./pages/income/customIncom";
 import Category from "./pages/category/Category";
 import EditProfile from "./pages/profile/EditProfile";
 import AppLayout from "./pages/layouts/layout";
+
 import EditExpensePage from "./pages/dashboard/EditExpensePage";
+
+
 
 
 function Router() {
@@ -61,7 +64,7 @@ function Router() {
 
           {/* ADD INCOME */}
           <Route
-            path="/add-income"
+            path="/add-income/:id"
             element={
               <AppLayout>
                 <AddIncome />
@@ -128,6 +131,9 @@ function Router() {
               </AppLayout>
             }
           />
+
+         
+          <Route path="/edit-income/:id" element={<AppLayout><EditExpensePage/></AppLayout>}/>
 
         </Routes>
       </BrowserRouter>

@@ -1,48 +1,90 @@
 
 import React, { useEffect, useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+
+import {
+  useNavigate,
+  useParams,
+  useLocation,
+} from "react-router-dom";
+
+import {
+  useForm,
+  Controller,
+} from "react-hook-form";
+
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
 import dayjs from "dayjs";
+
 import baseURL from "../../services/baseurl";
 
 function AddIncome() {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // CATEGORY ID
+  const { id } = useParams();
+
+  // TOKEN
   const token = localStorage.getItem("token");
 
-  const [amount, setAmount] = useState("");
-  const [note, setNote] = useState("");
-  const [date, setDate] = useState(dayjs());
+  // CATEGORY NAME
+  const selectedCategory = location.state?.category;
+
   const [loading, setLoading] = useState(false);
 
+  const {
+    handleSubmit,
+    register,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      date: dayjs(),
+    },
+  });
+
+  // LOGIN CHECK
   useEffect(() => {
+
+    console.log("Income Category Id:", id);
+
     if (!token) {
       navigate("/login");
     }
-  }, [token, navigate]);
 
-  const handleAddIncome = async () => {
+  }, [token, navigate, id]);
+
+  // SUBMIT
+  const onSubmit = async (values) => {
+
     try {
-      if (!amount) {
-        alert("Amount is required");
-        return;
-      }
-
-      if (!note) {
-        alert("Note is required");
-        return;
-      }
 
       setLoading(true);
 
+      // VALIDATION
+      if (!id) {
+        alert("Category Id missing");
+        return;
+      }
+
+      console.log("Form Values:", values);
+
       const payload = {
-        amount: Number(amount),
-        note: note,
-        date: date.format("YYYY-MM-DD"),
-        transactionCategoryId: 6,
+
+        amount: Number(values.amount),
+
+        note: values.note,
+
+        date: values.date.format("YYYY-MM-DD"),
+
+        // DYNAMIC CATEGORY ID
+        transactionCategoryId: Number(id),
       };
 
       console.log("Income Payload:", payload);
@@ -59,80 +101,157 @@ function AddIncome() {
 
       console.log("Income Added:", response.data);
 
-      navigate("/Dashboard");
-    }
-     catch (error) {
+      // RESET
+      reset({
+        amount: "",
+        note: "",
+        date: dayjs(),
+      });
+
+      // NAVIGATE
+      navigate("/dashboard");
+
+    } catch (error) {
+
       console.log(error);
 
       console.error(
         "Income Error:",
         error.response?.data || error.message
       );
+
+      alert(
+        error.response?.data?.message ||
+        "Failed to add income"
+      );
+
     } finally {
+
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="bg-[#f7f9fc] w-80 max-w-sm rounded-3xl shadow-xl p-6 font-serif relative">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-green-50 to-emerald-50">
+
+      <div className="bg-[#f7f9fc] w-full max-w-sm rounded-3xl shadow-xl p-6 relative">
 
         {/* BACK BUTTON */}
         <button
-          onClick={() => navigate("/Dashboard")}
-          className="absolute top-4 left-4 text-purple-600"
+          onClick={() => navigate("/dashboard")}
+          className="absolute top-4 left-4 text-green-600"
         >
           <IoArrowBack size={24} />
         </button>
 
         {/* HEADING */}
-        <h2 className="text-center text-lg font-semibold text-purple-600 mb-6">
+        <h2 className="text-center text-2xl font-bold text-green-600 mb-2">
           Add Income
         </h2>
 
-        {/* AMOUNT */}
-        <div className="bg-white rounded-full py-3 mb-6 flex items-center justify-center shadow">
-          <span className="text-gray-400 text-xl mr-1">₹</span>
+        {/* CATEGORY */}
+        {selectedCategory && (
+          <p className="text-center text-sm text-green-500 mb-6">
+            Category:
+            <span className="font-semibold capitalize">
+              {" "}
+              {selectedCategory}
+            </span>
+          </p>
+        )}
 
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            placeholder="0"
-            className="w-24 text-4xl font-semibold text-green-500 text-center outline-none bg-transparent"
-          />
-        </div>
+        {/* FORM */}
+        <form onSubmit={handleSubmit(onSubmit)}>
 
-        {/* NOTE */}
-        <input
-          type="text"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          placeholder="Note"
-          className="w-full bg-white p-3 rounded-xl mb-4 shadow outline-none"
-        />
+          {/* AMOUNT */}
+          <div className="bg-white rounded-full py-3 mb-2 flex items-center justify-center shadow">
 
-        {/* DATE */}
-        <div className="w-full bg-white rounded-xl shadow p-3 mb-4">
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Select Date"
-              value={date}
-              onChange={(newValue) => setDate(newValue)}
-              format="DD-MM-YYYY"
-              sx={{ width: "100%" }}
+            <span className="text-gray-400 text-xl mr-1">
+              ₹
+            </span>
+
+            <input
+              type="number"
+              placeholder="0"
+              className="w-28 text-4xl font-bold text-green-500 text-center outline-none bg-transparent"
+              {...register("amount", {
+                required: "Amount is required",
+              })}
             />
-          </LocalizationProvider>
-        </div>
+          </div>
 
-        {/* BUTTON */}
-        <button
-          onClick={handleAddIncome}
-          disabled={loading}
-          className="w-full mt-6 bg-purple-600 text-white py-2 rounded-xl"
-        >
-          {loading ? "Adding..." : "Add Income"}
-        </button>
+          {/* AMOUNT ERROR */}
+          {errors.amount && (
+            <p className="text-red-500 text-sm mb-4 text-center">
+              {errors.amount.message}
+            </p>
+          )}
+
+          {/* NOTE */}
+          <div className="mb-4">
+
+            <input
+              type="text"
+              placeholder="Enter note"
+              className="w-full bg-white p-3 rounded-xl shadow outline-none"
+              {...register("note", {
+                required: "Note is required",
+              })}
+            />
+
+            {errors.note && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.note.message}
+              </p>
+            )}
+
+          </div>
+
+          {/* DATE PICKER */}
+          <div className="w-full bg-white rounded-xl shadow p-3 mb-4">
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+              <Controller
+                name="date"
+                control={control}
+                rules={{
+                  required: "Date is required",
+                }}
+                render={({ field }) => (
+                  <DatePicker
+                    label="Select Date"
+                    value={field.value}
+                    onChange={(newValue) =>
+                      field.onChange(newValue)
+                    }
+                    format="DD-MM-YYYY"
+                    sx={{ width: "100%" }}
+                  />
+                )}
+              />
+
+            </LocalizationProvider>
+
+            {/* DATE ERROR */}
+            {errors.date && (
+              <p className="text-red-500 text-sm mt-2">
+                {errors.date.message}
+              </p>
+            )}
+
+          </div>
+
+          {/* BUTTON */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold transition disabled:opacity-50"
+          >
+            {loading ? "Adding..." : "Add Income"}
+          </button>
+
+        </form>
       </div>
     </div>
   );

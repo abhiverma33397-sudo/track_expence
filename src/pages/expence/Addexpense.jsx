@@ -15,13 +15,13 @@ function AddExpense() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // FIXED HERE
+  
   const { id } = useParams();
 
-  // TOKEN
+ 
   const token = localStorage.getItem("token");
 
-  // CATEGORY NAME FROM PREVIOUS PAGE
+ 
   const selectedCategory = location.state?.category;
 
   const [loading, setLoading] = useState(false);
@@ -38,7 +38,7 @@ function AddExpense() {
     },
   });
 
-  // CHECK LOGIN
+  
   useEffect(() => {
     console.log("Token:", token);
     console.log("Category Id:", id);
@@ -48,12 +48,12 @@ function AddExpense() {
     }
   }, [navigate, token, id]);
 
-  // SUBMIT FORM
+
   const onSubmit = async (values) => {
     try {
       setLoading(true);
 
-      // VALIDATION
+      
       if (!id) {
         alert("Category Id is missing");
         return;
@@ -66,7 +66,7 @@ function AddExpense() {
         note: values.note,
         date: values.date.format("YYYY-MM-DD"),
 
-        // FIXED HERE
+        
         transactionCategoryId: Number(id),
       };
 
@@ -84,14 +84,14 @@ function AddExpense() {
 
       console.log("Expense Added:", response.data);
 
-      // RESET FORM
+      
       reset({
         amount: "",
         note: "",
         date: dayjs(),
       });
 
-      // NAVIGATE
+     
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
