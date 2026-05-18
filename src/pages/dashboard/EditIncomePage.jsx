@@ -23,12 +23,12 @@ const EditIncomePage = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // FETCH CATEGORY
+ 
   useEffect(() => {
     fetchCategory();
   }, []);
 
-  // GET CATEGORY DATA
+
   const fetchCategory = async () => {
 
     try {

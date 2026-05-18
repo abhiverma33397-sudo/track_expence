@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import baseURL from "../../services/baseurl";
 
-const AddCustomExpense = () => {
+const CustomExpense = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -123,4 +123,4 @@ const AddCustomExpense = () => {
   );
 };
 
-export default AddCustomExpense;
+export default CustomExpense;

@@ -1,17 +1,9 @@
-
 import React, { useEffect, useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 
-import {
-  useNavigate,
-  useParams,
-  useLocation,
-} from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 
-import {
-  useForm,
-  Controller,
-} from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -22,17 +14,13 @@ import dayjs from "dayjs";
 import baseURL from "../../services/baseurl";
 
 function AddIncome() {
-
   const navigate = useNavigate();
   const location = useLocation();
 
-  // CATEGORY ID
   const { id } = useParams();
 
-  // TOKEN
   const token = localStorage.getItem("token");
 
-  // CATEGORY NAME
   const selectedCategory = location.state?.category;
 
   const [loading, setLoading] = useState(false);
@@ -51,20 +39,16 @@ function AddIncome() {
 
   // LOGIN CHECK
   useEffect(() => {
-
     console.log("Income Category Id:", id);
 
     if (!token) {
       navigate("/login");
     }
-
   }, [token, navigate, id]);
 
   // SUBMIT
   const onSubmit = async (values) => {
-
     try {
-
       setLoading(true);
 
       // VALIDATION
@@ -76,28 +60,23 @@ function AddIncome() {
       console.log("Form Values:", values);
 
       const payload = {
-
         amount: Number(values.amount),
 
         note: values.note,
 
         date: values.date.format("YYYY-MM-DD"),
 
-        // DYNAMIC CATEGORY ID
+    
         transactionCategoryId: Number(id),
       };
 
       console.log("Income Payload:", payload);
 
-      const response = await baseURL.post(
-        "/Transaction",
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await baseURL.post("/Transaction", payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       console.log("Income Added:", response.data);
 
@@ -108,34 +87,22 @@ function AddIncome() {
         date: dayjs(),
       });
 
-      // NAVIGATE
+     
       navigate("/dashboard");
-
     } catch (error) {
-
       console.log(error);
 
-      console.error(
-        "Income Error:",
-        error.response?.data || error.message
-      );
+      console.error("Income Error:", error.response?.data || error.message);
 
-      alert(
-        error.response?.data?.message ||
-        "Failed to add income"
-      );
-
+      alert(error.response?.data?.message || "Failed to add income");
     } finally {
-
       setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-green-50 to-emerald-50">
-
       <div className="bg-[#f7f9fc] w-full max-w-sm rounded-3xl shadow-xl p-6 relative">
-
         {/* BACK BUTTON */}
         <button
           onClick={() => navigate("/dashboard")}
@@ -162,13 +129,9 @@ function AddIncome() {
 
         {/* FORM */}
         <form onSubmit={handleSubmit(onSubmit)}>
-
           {/* AMOUNT */}
           <div className="bg-white rounded-full py-3 mb-2 flex items-center justify-center shadow">
-
-            <span className="text-gray-400 text-xl mr-1">
-              ₹
-            </span>
+            <span className="text-gray-400 text-xl mr-1">₹</span>
 
             <input
               type="number"
@@ -189,7 +152,6 @@ function AddIncome() {
 
           {/* NOTE */}
           <div className="mb-4">
-
             <input
               type="text"
               placeholder="Enter note"
@@ -200,18 +162,13 @@ function AddIncome() {
             />
 
             {errors.note && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.note.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.note.message}</p>
             )}
-
           </div>
 
           {/* DATE PICKER */}
           <div className="w-full bg-white rounded-xl shadow p-3 mb-4">
-
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-
               <Controller
                 name="date"
                 control={control}
@@ -222,24 +179,18 @@ function AddIncome() {
                   <DatePicker
                     label="Select Date"
                     value={field.value}
-                    onChange={(newValue) =>
-                      field.onChange(newValue)
-                    }
+                    onChange={(newValue) => field.onChange(newValue)}
                     format="DD-MM-YYYY"
                     sx={{ width: "100%" }}
                   />
                 )}
               />
-
             </LocalizationProvider>
 
             {/* DATE ERROR */}
             {errors.date && (
-              <p className="text-red-500 text-sm mt-2">
-                {errors.date.message}
-              </p>
+              <p className="text-red-500 text-sm mt-2">{errors.date.message}</p>
             )}
-
           </div>
 
           {/* BUTTON */}
@@ -250,7 +201,6 @@ function AddIncome() {
           >
             {loading ? "Adding..." : "Add Income"}
           </button>
-
         </form>
       </div>
     </div>

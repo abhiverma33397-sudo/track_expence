@@ -9,18 +9,17 @@ import ForgetPassword from "./pages/auth/Forget";
 import OTPpage from "./pages/auth/OTPpage";
 import NewPassword from "./pages/auth/NewPassword";
 import ChangePassword from "./pages/auth/ChangePassword";
-
 import Dashboard from "./pages/dashboard/Dashboard";
 import AddExpense from "./pages/expence/AddExpense";
-import AddIncome from "./pages/income/AddIncome";
 import Profile from "./pages/profile/Profile";
-import Addcstm from "./pages/expence/Addcstmexpence";
-import CustomIncom from "./pages/income/customIncom";
 import Category from "./pages/category/Category";
 import EditProfile from "./pages/profile/EditProfile";
 import AppLayout from "./pages/layouts/layout";
-
 import EditExpensePage from "./pages/dashboard/EditExpensePage";
+import CustomExpense from "./pages/expence/CustomExpense";
+// import AddIncome from "./pages/income/AddIncome";
+import CustomIncom from"./pages/income/CustomIncom";
+import AddIncome from "./pages/income/AddIncome";
 
 
 
@@ -97,7 +96,7 @@ function Router() {
             path="/add-custom-expense"
             element={
               <AppLayout>
-                <Addcstm />
+                <CustomExpense/>
               </AppLayout>
             }
           />
@@ -107,7 +106,7 @@ function Router() {
             path="/custom-income"
             element={
               <AppLayout>
-                <CustomIncom />
+                <CustomIncom/>
               </AppLayout>
             }
           />
