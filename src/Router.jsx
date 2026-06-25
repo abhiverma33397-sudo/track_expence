@@ -56,7 +56,7 @@ function Router() {
             path="/add-expense/:id"
             element={
               <AppLayout>
-                <AddExpense />
+                <Addexpense />
               </AppLayout>
             }
           />
