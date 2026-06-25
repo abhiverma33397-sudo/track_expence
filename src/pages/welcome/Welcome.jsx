@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Img from "../../assets/images/img.png";
+import Img from "../../assets/images/Img.png";
 
 const messages = [
   "Save your money with a smart expense tracker",
