@@ -10,7 +10,7 @@ import OTPpage from "./pages/auth/OTPpage";
 import NewPassword from "./pages/auth/NewPassword";
 import ChangePassword from "./pages/auth/ChangePassword";
 import Dashboard from "./pages/dashboard/Dashboard";
-import AddExpense from "./pages/expence/Addexpense";
+import AddExpense from "./pages/expence/AddExpense";
 import Profile from "./pages/profile/Profile";
 import Category from "./pages/category/Category";
 import EditProfile from "./pages/profile/EditProfile";
@@ -56,7 +56,7 @@ function Router() {
             path="/add-expense/:id"
             element={
               <AppLayout>
-                <Addexpense />
+                <AddExpense />
               </AppLayout>
             }
           />
