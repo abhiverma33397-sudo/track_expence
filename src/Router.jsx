@@ -17,7 +17,7 @@ import EditProfile from "./pages/profile/EditProfile";
 import AppLayout from "./pages/layouts/layout";
 import EditExpensePage from "./pages/dashboard/EditExpensePage";
 import CustomExpense from "./pages/expence/CustomExpense";
-// import AddIncome from "./pages/income/AddIncome";
+
 import CustomIncom from"./pages/income/CustomIncom";
 import AddIncome from "./pages/income/AddIncome";
 
@@ -81,7 +81,7 @@ function Router() {
             }
           />
 
-          {/* EDIT PROFILE */}
+       
           <Route
             path="/edit-profile"
             element={
@@ -91,7 +91,7 @@ function Router() {
             }
           />
 
-          {/* CUSTOM EXPENSE */}
+        
           <Route
             path="/add-custom-expense"
             element={
@@ -101,7 +101,7 @@ function Router() {
             }
           />
 
-          {/* CUSTOM INCOME */}
+        
           <Route
             path="/custom-income"
             element={
