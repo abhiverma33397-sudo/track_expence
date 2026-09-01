@@ -1,9 +1,36 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
+      "source": "/login",
+      "destination": "/"
+    },
+    {
+      "source": "/register",
+      "destination": "/"
+    },
+    {
+      "source": "/forget",
+      "destination": "/"
+    },
+    {
+      "source": "/OTPpage",
+      "destination": "/"
+    },
+    {
+      "source": "/NewPassword",
+      "destination": "/"
+    },
+    {
+      "source": "/ChangePassword",
+      "destination": "/"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/"
+    },
+    {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "/"
     }
   ]
 }
