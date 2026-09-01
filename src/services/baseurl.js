@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const baseURL = axios.create({
-  baseURL: "https://localhost:7213/api/",
+  baseURL: "https://expensetrackerr.runasp.net/api/",
 });
 
 export default baseURL;
